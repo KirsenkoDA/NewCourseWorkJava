@@ -29,7 +29,7 @@ public class UserController {
     @GetMapping("/login")
     public String login()
     {
-        return "user/login.html";
+        return "user/login";
     }
     @PostMapping("/registration")
     public String createUser(User user, Model model) throws IOException

@@ -34,13 +34,18 @@ public class MySecurityAppConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .authorizeHttpRequests()
-                .anyRequest()
-                .authenticated()
+                .authorizeRequests()
+                .antMatchers("/", "/users/registration", "/home/**", "/images/**").permitAll()
+                .antMatchers("/users/**", "/products/**", "/characteristics/**", "/productCharacteristics/**", "/productGroups").hasRole("ADMIN")
+                .anyRequest().authenticated()
                 .and()
-                .formLogin().loginPage("/customLogin").loginProcessingUrl("/process-login").permitAll()
+                .formLogin()
+                .loginPage("/users/login")
+                .permitAll()
                 .and()
-                .httpBasic()
-                .and().logout().permitAll();
+                .logout()
+                .permitAll()
+                .and()
+                .exceptionHandling().accessDeniedPage("/users/accessDenied");
     }
 }
