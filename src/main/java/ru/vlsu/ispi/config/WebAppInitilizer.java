@@ -1,6 +1,9 @@
 package ru.vlsu.ispi.config;
 
+import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
+
+import javax.servlet.Filter;
 
 public class WebAppInitilizer extends
         AbstractAnnotationConfigDispatcherServletInitializer {
@@ -19,5 +22,12 @@ public class WebAppInitilizer extends
     protected String[] getServletMappings() {
         String[] mappings = {"/"};
         return mappings;
+    }
+    @Override
+    protected Filter[] getServletFilters() {
+        CharacterEncodingFilter encodingFilter = new CharacterEncodingFilter();
+        encodingFilter.setEncoding("UTF-8");
+        encodingFilter.setForceEncoding(true);
+        return new Filter[] { encodingFilter };
     }
 }
