@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Информация о пользователе</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+  </head>
+  <body>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js" integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa" crossorigin="anonymous"></script>
+<!--    <div th:insert="parts/navbar :: navigation"></div>-->
+    <div class="container text-center">
+      <div class="col-md-6 .offset-md-3">
+        <div class="card" style="width: 50rem;">
+          <!--      <img th:if="${product.existImage(0)}" th:src="@{/images/{id}(id=${images.get(0).getId()})}" class="card-img-top" alt="...">-->
+          <div class="card-body">
+            <h5 th:text="${user.name}">Card title</h5>
+          </div>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><b>Id</b>&nbsp;<span th:text="${user.id}"></span></li>
+            <li class="list-group-item"><b>Phone number</b>&nbsp;<span th:text="${user.phoneNumber}"></span></li>
+            <li class="list-group-item"><b>E-mail</b>&nbsp;<span th:text="${user.email}"></span></li>
+            <li class="list-group-item"><b>Active</b>&nbsp;
+              <input type="checkbox" th:checked="${user.active}" disabled>
+            </li>
+            <li class="list-group-item">
+              <table>
+                <tr th:each="userRole: ${user.getRoles()}">
+                  <td th:text="${userRole}"></td>
+                </tr>
+              </table>
+          </ul>
+          <div class="card-body">
+            <table>
+              <tr>
+                <td>
+                  <form th:method="POST" th:action="@{/users/delete/{id}(id=${user.getId()})}">
+                    <input class="btn btn-danger" type="submit" value="Delete">
+                  </form>
+                </td>
+                <td>
+                  <form th:method="GET" th:action="@{/users/{id}/edit(id=${user.getId()})}">
+                    <input class="btn btn-success" type="submit" value="Edit">
+                  </form>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
