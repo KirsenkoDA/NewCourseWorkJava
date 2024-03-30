@@ -17,15 +17,15 @@
 
       <label class="form-label" for="name">Name: </label>
       <input th:field="*{name}" class="form-control" type="text" name="name" id="name"/>
-    <!--  <div style="color: red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name error</div>-->
+      <div style="color: red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name error</div>
 
       <label class="form-label" for="email">E-mail: </label>
       <input th:field="*{email}" class="form-control" type="text" name="email" id="email"/>
-    <!--  <div style="color: red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>-->
+      <div style="color: red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
 
       <label class="form-label" for="phoneNumber">Phone number: </label>
       <input th:field="*{phoneNumber}" class="form-control" type="text" name="phoneNumber" id="phoneNumber"/>
-    <!--  <div style="color: red" th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}"></div>-->
+      <div style="color: red" th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}"></div>
 
       <table>
         <label class="form-label" for="roles"></label>

@@ -2,12 +2,14 @@ package ru.vlsu.ispi.controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.vlsu.ispi.dto.UserUpdateDTO;
 import ru.vlsu.ispi.models.Role;
 import ru.vlsu.ispi.models.User;
 import ru.vlsu.ispi.services.UserService;
 
+import javax.validation.Valid;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -89,8 +91,13 @@ public class UserController {
         return "user/edit.html";
     }
     @PostMapping("/update")
-    public String update(@ModelAttribute("userUpdateDTO") UserUpdateDTO userUpdateDTO) throws IOException
+    public String update(Model model, @Valid @ModelAttribute("userUpdateDTO") UserUpdateDTO userUpdateDTO , BindingResult bindingResult) throws IOException
     {
+        if(bindingResult.hasErrors())
+        {
+            model.addAttribute("userUpdateDTO", userUpdateDTO);
+            return "user/edit.html";
+        }
         User user = new User();
         user.setId(userUpdateDTO.getId());
         user.setName(userUpdateDTO.getName());
