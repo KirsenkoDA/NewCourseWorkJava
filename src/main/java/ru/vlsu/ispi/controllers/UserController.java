@@ -95,7 +95,11 @@ public class UserController {
     {
         if(bindingResult.hasErrors())
         {
+            List<Role> allRoles = new ArrayList<>();
+            allRoles.addAll(Arrays.asList(Role.values()));
+
             model.addAttribute("userUpdateDTO", userUpdateDTO);
+            model.addAttribute("allRoles", allRoles);
             return "user/edit.html";
         }
         User user = new User();
