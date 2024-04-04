@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://tymeleaf.org">
+<html lang="en" xmlns:th="https://www.thymeleaf.org" >
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -18,6 +18,7 @@
       <tr name = "productGroup" th:each="productGroup : ${productGroups}">
         <td><a th:href="@{/productGroups/{id}(id=${productGroup.getId()})}" th:text="${productGroup.getId()}">products</a></td>
         <td><a th:href="@{/productGroups/{id}(id=${productGroup.getId()})}" th:text="${productGroup.getName()}">products</a></td>
+        <td><a th:href="@{/productGroups/{id}(id=${productGroup.getId()})}" th:utext="${productGroup.getSvgIcon()}">products</a></td>
       </tr>
     </table>
     <a th:href="@{/productGroups/new}">Add new product group</a>

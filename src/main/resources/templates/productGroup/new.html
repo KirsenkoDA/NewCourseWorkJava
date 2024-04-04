@@ -14,6 +14,10 @@
     <form class="mb-3" th:action="@{/productGroups}" th:method="post" th:object="${createProductGroupDAO}">
       <label for="name" class="form-label">Name: </label>
       <input class="form-control" th:field="*{name}" type="text" id="name" name="name"/>
+      <div style="color: red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name error</div>
+      <label for="name" class="form-label">SVG Icon URL: </label>
+      <input class="form-control" th:field="*{svgIcon}" type="text" id="svgIcon" name="svgIcon"/>
+      <div style="color: red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name error</div>
       <!--    <div style="color: red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name error</div>-->
       <input type="submit" value="Add product group"/>
     </form>
