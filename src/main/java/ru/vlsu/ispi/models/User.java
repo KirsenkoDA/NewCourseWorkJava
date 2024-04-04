@@ -1,6 +1,7 @@
 package ru.vlsu.ispi.models;
 
 
+import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -11,9 +12,9 @@ import javax.validation.constraints.Size;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
-
 @Entity
 @Table(name = "user_table")
+@Data
 public class User  implements UserDetails {
 
     @Id

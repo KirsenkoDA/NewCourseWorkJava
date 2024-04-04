@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://tymeleaf.org">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Изменение группы товара</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+  </head>
+  <body>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js" integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa" crossorigin="anonymous"></script>
+    <div th:insert="parts/navbar :: navigation"></div>
+    <h1>Изменить группу товара</h1>
+    <form th:action="@{/productGroups/update/{id}(id=${productGroup.getId()})}" class="mb-3" th:method="post" th:object="${productGroup}">
+      <label class="form-label" for="id">Код: </label>
+      <input th:field="*{id}"  class="form-control" type="text" id="id"/><br><br>
+      <label class="form-label" for="name">Наименование: </label>
+      <input th:field="*{name}"  class="form-control" type="text" id="name"/><br><br>
+      <label class="form-label" for="svgIcon">Иконка группы: </label>
+      <input th:field="*{svgIcon}"  class="form-control" type="text" id="svgIcon"/><br><br>
+      <input type="submit" class="btn btn-success" value="Изменить группу товара"/>
+    </form>
+<!--    <table>-->
+<!--      <tr >-->
+<!--        <td>-->
+<!--          <p>Характеристики:</p><br>-->
+<!--          &lt;!&ndash;                <form th:action="@{/productGroups/deleteCharacteristic/{id}(id=${})}" th:method="DELETE">&ndash;&gt;-->
+<!--          <select th:each="characteristics: ${productGroup.getCharacteristics()}">-->
+<!--            <option th:text="${characteristics.getName()}"></option>-->
+<!--          </select>-->
+<!--          &lt;!&ndash;                    <input th:type="submit">&ndash;&gt;-->
+<!--          &lt;!&ndash;                </form>&ndash;&gt;-->
+<!--        </td>-->
+<!--      </tr>-->
+<!--    </table>-->
+  </body>
+</html>
