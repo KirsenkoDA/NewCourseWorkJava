@@ -4,16 +4,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import ru.vlsu.ispi.dto.productGroupDAO.CreateProductGroupDAO;
-import ru.vlsu.ispi.dto.productGroupDAO.EditProductGroupDAO;
+import ru.vlsu.ispi.dto.productGroupDTO.CreateProductGroupDAO;
+import ru.vlsu.ispi.dto.productGroupDTO.EditProductGroupDAO;
 import ru.vlsu.ispi.models.ProductGroup;
-import ru.vlsu.ispi.models.Role;
 import ru.vlsu.ispi.services.ProductGroupService;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 @Controller
 @RequestMapping("/productGroups")

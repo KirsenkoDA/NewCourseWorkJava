@@ -1,4 +1,4 @@
-package ru.vlsu.ispi.dto.productGroupDAO;
+package ru.vlsu.ispi.dto.productGroupDTO;
 
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
