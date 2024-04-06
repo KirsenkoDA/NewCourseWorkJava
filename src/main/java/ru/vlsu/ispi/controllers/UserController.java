@@ -2,14 +2,18 @@ package ru.vlsu.ispi.controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+import ru.vlsu.ispi.dto.UserUpdateDTO;
+import ru.vlsu.ispi.models.Role;
 import ru.vlsu.ispi.models.User;
 import ru.vlsu.ispi.services.UserService;
 
+import javax.validation.Valid;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @Controller
 @RequestMapping("/users")
@@ -61,31 +65,52 @@ public class UserController {
 //        model.addAttribute("avatar", user.getAvatar());
         return "user/show.html";
     }
-//    @DeleteMapping("/{id}")
-//    public String delete(@PathVariable Long id)
-//    {
-//        userService.deleteById(id);
-//        return "redirect:/users";
-//    }
-//    @GetMapping("/{id}/edit")
-//    public String edit(Model model, @PathVariable("id") Long id)
-//    {
-//        List<Role> allRoles = new ArrayList<>();
-//        allRoles.addAll(Arrays.asList(Role.values()));
-//        model.addAttribute("user", userService.show(id));
-//        model.addAttribute("allRoles", allRoles);
-//        return "user/edit.html";
-//    }
-//    @PatchMapping("/{id}")
-//    public String update(@ModelAttribute("user") User user) throws IOException
-//    {
-////        if(bindingResult.hasErrors())
-////        {
-////            return "user/edit.html";
-////        }
-////        userService.changeUserPassword(user, user.getPassword());
-//        user.setPassword(userService.show(user.getId()).getPassword());
-//        userService.save(user);
-//        return "redirect:/users";
-//    }
+    @PostMapping("/delete/{id}")
+    public String delete(@PathVariable Long id)
+    {
+        userService.deleteById(id);
+        return "redirect:/users";
+    }
+    @GetMapping("/{id}/edit")
+    public String edit(Model model, @PathVariable("id") Long id)
+    {
+        List<Role> allRoles = new ArrayList<>();
+        allRoles.addAll(Arrays.asList(Role.values()));
+
+        UserUpdateDTO userUpdateDTO = new UserUpdateDTO();
+        User user = userService.show(id);
+        userUpdateDTO.setId(id);
+        userUpdateDTO.setName(user.getName());
+        userUpdateDTO.setEmail(user.getEmail());
+        userUpdateDTO.setPhoneNumber(user.getPhoneNumber());
+        userUpdateDTO.setRoles(user.getRoles());
+        userUpdateDTO.setActive(user.isActive());
+
+        model.addAttribute("userUpdateDTO", userUpdateDTO);
+        model.addAttribute("allRoles", allRoles);
+        return "user/edit.html";
+    }
+    @PostMapping("/update")
+    public String update(Model model, @Valid @ModelAttribute("userUpdateDTO") UserUpdateDTO userUpdateDTO , BindingResult bindingResult) throws IOException
+    {
+        if(bindingResult.hasErrors())
+        {
+            List<Role> allRoles = new ArrayList<>();
+            allRoles.addAll(Arrays.asList(Role.values()));
+
+            model.addAttribute("userUpdateDTO", userUpdateDTO);
+            model.addAttribute("allRoles", allRoles);
+            return "user/edit.html";
+        }
+        User user = new User();
+        user.setId(userUpdateDTO.getId());
+        user.setName(userUpdateDTO.getName());
+        user.setEmail(userUpdateDTO.getEmail());
+        user.setPhoneNumber(userUpdateDTO.getPhoneNumber());
+        user.setRoles(userUpdateDTO.getRoles());
+        user.setActive(userUpdateDTO.isActive());
+        user.setPassword(userService.show(user.getId()).getPassword());
+        userService.save(user);
+        return "redirect:/users";
+    }
 }

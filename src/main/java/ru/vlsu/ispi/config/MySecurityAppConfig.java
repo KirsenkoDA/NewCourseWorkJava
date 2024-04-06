@@ -36,7 +36,9 @@ public class MySecurityAppConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 .antMatchers("/", "/users/registration", "/home/**", "/images/**").permitAll()
-                .antMatchers("/users/**", "/products/**", "/characteristics/**", "/productCharacteristics/**", "/productGroups").hasRole("ADMIN")
+//                .antMatchers(
+////                        "/users/**",
+//                        "/products/**", "/characteristics/**", "/productCharacteristics/**", "/productGroups").hasRole("ADMIN")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
