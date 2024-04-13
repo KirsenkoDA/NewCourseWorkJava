@@ -35,7 +35,7 @@ public class CartController {
     {
         List<Cart> carts = cartService.findByUser(user);
         model.addAttribute("carts", carts);
-        return "cart/show";
+        return "userMainPages/cart";
     }
     @PostMapping("/delete/{id}")
     public String delete(@PathVariable("id") Long id)
@@ -77,9 +77,10 @@ public class CartController {
         salesTable.setStatus(statusService.show(1));
         salesTable.setUser(user);
         salesTable.setDateCreated(LocalDateTime.now());
+        salesTable.setAddress("Gus");
         //Сохранение нового заказа
         salesTableService.save(salesTable);
-        //salesTable.setId(salesTableService.findByStatusAndUser(statusService.show(3), user).getId());
+        salesTable.setId(salesTableService.findByStatusAndUser(statusService.show(1), user).getId());
         //Создание строк заказа
         for(Cart cart: carts)
         {

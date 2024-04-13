@@ -22,7 +22,7 @@ public class SalesTable {
     private User user;
     @ManyToOne(fetch = FetchType.EAGER)
     private Status status;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "salesTable")
+    @OneToMany(mappedBy = "salesTable", fetch = FetchType.EAGER)
     private List<SalesLine> salesLines = new ArrayList<>();
     private String address;
 

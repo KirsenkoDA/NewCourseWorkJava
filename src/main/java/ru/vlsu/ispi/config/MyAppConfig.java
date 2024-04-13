@@ -56,6 +56,7 @@ public class MyAppConfig  implements WebMvcConfigurer {
         resolver.setPrefix("/templates/");
         resolver.setSuffix(".html");
         resolver.setTemplateMode(TemplateMode.HTML);
+        resolver.setCharacterEncoding("UTF-8");
         return resolver;
     }
 
