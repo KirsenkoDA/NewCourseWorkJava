@@ -87,7 +87,7 @@ public class ProductController {
     public String create(Model model, @RequestParam(name="file1", required = false) MultipartFile file1
             , @RequestParam(name="file2", required = false) MultipartFile file2
             , @RequestParam(name="file3", required = false) MultipartFile file3
-            , @ModelAttribute("createProductDTO") @Valid CreateProductDTO createProductDTO
+            , @ModelAttribute("createProductDTO") CreateProductDTO createProductDTO
             , BindingResult bindingResult) throws IOException
     {
         if(bindingResult.hasErrors()) {
@@ -100,7 +100,8 @@ public class ProductController {
         product.setDiscription(createProductDTO.getDiscription());
         product.setPrice(createProductDTO.getPrice());
         product.setProductGroup(productGroupService.getProductGroup(createProductDTO.getProductGroupId()));
-        productService.save(product, file1, file2, file3);
+//        productService.save(product, file1, file2, file3);
+        productService.save(product);
         return "redirect:/products";
     }
     @GetMapping("/{id}")
@@ -109,7 +110,7 @@ public class ProductController {
         Product product = productService.show(id);
 
         model.addAttribute("product", product);
-        model.addAttribute("images", product.getImages());
+//        model.addAttribute("images", product.getImages());
         return "product/show.html";
     }
 
@@ -126,23 +127,23 @@ public class ProductController {
         model.addAttribute("groups", productGroupService.groupList());
         return "product/edit.html";
     }
-    @PatchMapping("/{id}")
-    public String update(@ModelAttribute("product") @Valid Product product
-            , BindingResult bindingResult
-            , @PathVariable("id") Long id
-            , @RequestParam(name="file1", required = false) MultipartFile file1
-            , @RequestParam(name="file2", required = false) MultipartFile file2
-            , @RequestParam(name="file3", required = false) MultipartFile file3, Model model) throws IOException
-    {
-        product.setImages(productService.show(id).getImages());
-        if(bindingResult.hasErrors())
-        {
-            model.addAttribute("groups", productGroupService.groupList());
-            return "product/edit.html";
-        }
-        productService.save(product, file1, file2, file3);
-        return "redirect:/products";
-    }
+//    @PatchMapping("/{id}")
+//    public String update(@ModelAttribute("product") @Valid Product product
+//            , BindingResult bindingResult
+//            , @PathVariable("id") Long id
+//            , @RequestParam(name="file1", required = false) MultipartFile file1
+//            , @RequestParam(name="file2", required = false) MultipartFile file2
+//            , @RequestParam(name="file3", required = false) MultipartFile file3, Model model) throws IOException
+//    {
+//        product.setImages(productService.show(id).getImages());
+//        if(bindingResult.hasErrors())
+//        {
+//            model.addAttribute("groups", productGroupService.groupList());
+//            return "product/edit.html";
+//        }
+//        productService.save(product, file1, file2, file3);
+//        return "redirect:/products";
+//    }
 //    @GetMapping("/{id}/editCharacteristics")
 //    public String editCharacteristics(@PathVariable("id") Long id, Model model)
 //    {

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://tymeleaf.org">
+<html lang="en" xmlns:th="https://www.thymeleaf.org" >
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -21,14 +21,15 @@
     <div id="content" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
         <table class="table table-striped">
             <tr>
-                <th>Код</th>
-                <th>Наименование</th>
-                <th>Цена</th>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Price</th>
             </tr>
             <tr name = "listProducts" th:each="Product : ${listProducts}">
                 <td><a th:href="@{/products/{id}(id=${Product.getId()})}" th:text="${Product.getId()}">products</a></td>
                 <td><a th:href="@{/products/{id}(id=${Product.getId()})}" th:text="${Product.getName()}">products</a></td>
                 <td><a th:href="@{/products/{id}(id=${Product.getId()})}" th:text="${Product.getPrice()}">products</a></td>
+                <td><a th:href="@{/carts/addToCart/{id}(id=${Product.getId()})}">addToCart</a></td>
             </tr>
         </table>
         <div th:if="${totalPages > 1}">

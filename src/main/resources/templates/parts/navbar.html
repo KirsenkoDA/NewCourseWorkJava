@@ -45,12 +45,12 @@
               <button class="btn btn-outline-success" type="submit">Search</button>
             </form>
             <button><a href="/home/personalAccount/page/1">Personal account</a></button>
-            <form th:action="@{/logout}" method="post" th:if="${#authorization.expression('isAuthenticated()')}">
-              <input type="submit" value="Log out"/>
-            </form>
-            <form th:action="@{/login}" method="get" th:if="${#authorization.expression('!isAuthenticated()')}">
-              <input type="submit" value="Log in"/>
-            </form>
+<!--            <form th:action="@{/logout}" method="post" th:if="${#authorization.expression('isAuthenticated()')}">-->
+<!--              <input type="submit" value="Log out"/>-->
+<!--            </form>-->
+<!--            <form th:action="@{/login}" method="get" th:if="${#authorization.expression('!isAuthenticated()')}">-->
+<!--              <input type="submit" value="Log in"/>-->
+<!--            </form>-->
           </div>
         </div>
       </nav>

@@ -52,6 +52,9 @@ public class User  implements UserDetails {
     @CollectionTable(name="user_role", joinColumns = @JoinColumn(name="user_id"))
     @Enumerated(EnumType.STRING)
     private Set<Role> roles = new HashSet<>();
+
+    @OneToOne(fetch = FetchType.EAGER, mappedBy = "user")
+    private Cart cart;
 //
 //    private LocalDateTime dateOfCreated;
 //

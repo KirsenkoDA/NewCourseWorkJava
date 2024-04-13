@@ -36,19 +36,22 @@ public class Product {
     @ManyToOne(fetch = FetchType.EAGER)
     private ProductGroup productGroup;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "product")//(mappedBy)Товар связанный с фотографией будет записан в foreign key  в таблице images
-    private List<Image> images = new ArrayList<>();
+//    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "product")//(mappedBy)Товар связанный с фотографией будет записан в foreign key  в таблице images
+//    private List<Image> images = new ArrayList<>();
+//
+//    @Column(name = "preview_image_id")
+//    private Long previewImageId;
 
-    @Column(name = "preview_image_id")
-    private Long previewImageId;
-    public void updateImageFromProduct(Image image, int index)
-    {
-        image.setProduct(this);
-        images.set(index, image);
-    }
-    public void addImageToProduct(Image image)//Метод добавления foreign key в таблицы
-    {
-        image.setProduct(this);
-        images.add(image);
-    }
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "product")
+    private Cart cart;
+//    public void updateImageFromProduct(Image image, int index)
+//    {
+//        image.setProduct(this);
+//        images.set(index, image);
+//    }
+//    public void addImageToProduct(Image image)//Метод добавления foreign key в таблицы
+//    {
+//        image.setProduct(this);
+//        images.add(image);
+//    }
 }

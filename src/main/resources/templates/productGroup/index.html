@@ -13,7 +13,7 @@
     <table>
       <tr>
         <th>Id</th>
-        <th>Name</th>
+        <th>Имя</th>
       </tr>
       <tr name = "productGroup" th:each="productGroup : ${productGroups}">
         <td><a th:href="@{/productGroups/{id}(id=${productGroup.getId()})}" th:text="${productGroup.getId()}">products</a></td>
