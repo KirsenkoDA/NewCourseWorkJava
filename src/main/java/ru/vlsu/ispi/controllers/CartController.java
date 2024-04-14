@@ -92,6 +92,6 @@ public class CartController {
             salesLineService.save(salesLine);
             cartService.delete(cart.getId());
         }
-        return "redirect:/salesTables/" + salesTable.getId();
+        return "redirect:/salesTables/" + salesTable.getId().toString();
     }
 }

@@ -45,7 +45,7 @@ public class SalesTableController {
         model.addAttribute("totalPages", page.getTotalPages());
         model.addAttribute("totalItems", page.getTotalElements());
         model.addAttribute("salesTables", salesTables);
-        return "salesTables/index";
+        return "salesTable/index";
     }
     @GetMapping("/{id}")
     public String show(@PathVariable Long id, Model model)
@@ -54,7 +54,7 @@ public class SalesTableController {
         SalesTable salesTable = salesTableService.show(id);
         model.addAttribute("salesTable", salesTable);
         model.addAttribute("salesLines", salesLines);
-        return "salesTables/show";
+        return "salesTable/show";
     }
     @PostMapping("/accept/{id}")
     public String accept(@PathVariable Long id, @RequestParam(name="address", required = false) String address)
