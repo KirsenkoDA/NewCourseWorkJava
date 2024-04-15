@@ -17,9 +17,6 @@ public class ProductGroupService {
     public List<ProductGroup> groupList() {
         return productGroupRepository.findAll();
     }
-    public ProductGroup getProductGroup(Long productGroupId) {
-        return productGroupRepository.findById(productGroupId).get();
-    }
     public ProductGroup show(long id)
     {
         return productGroupRepository.findById(id).orElse(null);

@@ -31,19 +31,18 @@ public class HomeController {
         this.salesTableService = salesTableService;
     }
 
-//    @GetMapping("/personalAccount/page/{pageNo}")
-//    public String personalAccount(@PathVariable(value = "pageNo") int pageNo, Model model, @AuthenticationPrincipal User user) {
-//        int pageSize = 3;
-//        Long userId = 8L;
-//        Page<SalesTable> page = salesTableService.findByUser(pageNo - 1, pageSize, user);
-//        List<SalesTable> salesTables = page.getContent();
-//
-//        model.addAttribute("currentPage", pageNo);
-//        model.addAttribute("totalPages", page.getTotalPages());
-//        model.addAttribute("totalItems", page.getTotalElements());
-//        model.addAttribute("salesTables", salesTables);
-//        return "userMainPage/personalAccount";
-//    }
+    @GetMapping("/personalAccount/page/{pageNo}")
+    public String personalAccount(@PathVariable(value = "pageNo") int pageNo, Model model, @AuthenticationPrincipal User user) {
+        int pageSize = 3;
+        Page<SalesTable> page = salesTableService.findByUser(pageNo - 1, pageSize, user);
+        List<SalesTable> salesTables = page.getContent();
+
+        model.addAttribute("currentPage", pageNo);
+        model.addAttribute("totalPages", page.getTotalPages());
+        model.addAttribute("totalItems", page.getTotalElements());
+        model.addAttribute("salesTables", salesTables);
+        return "userMainPages/personalAccount";
+    }
     @GetMapping("/")
     public String index()
     {
@@ -57,11 +56,12 @@ public class HomeController {
 
         if(productGroupId == null) {
             productGroupId = "1";
+            productGroup = productGroupService.show(Long.parseLong(productGroupId));
             selectedParam = productGroupId;
         }
         else
         {
-            productGroup = productGroupService.getProductGroup(Long.parseLong(productGroupId));
+            productGroup = productGroupService.show(Long.parseLong(productGroupId));
             selectedParam = productGroupId;
         }
         int pageSize = 3;
@@ -76,6 +76,6 @@ public class HomeController {
         model.addAttribute("totalPages", page.getTotalPages());
         model.addAttribute("totalItems", page.getTotalElements());
         model.addAttribute("listProducts", listProducts);
-        return "userMainPage/home.html";
+        return "userMainPages/home.html";
     }
 }

@@ -11,7 +11,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js" integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa" crossorigin="anonymous"></script>
     <div th:insert="parts/navbar :: navigation"></div>
 <h1>Add new product group</h1>
-<form class="mb-3" th:action="@{/products}" th:method="post" th:object="${createProductDTO}">
+<form class="mb-3" th:action="@{/products}" th:method="post" th:object="${createProductDTO}" >
 <!--      enctype="multipart/form-data"-->
   <label for="name" class="form-label">Name: </label>
   <input class="form-control" th:field="*{name}" type="text" id="name" name="name"/>
@@ -34,7 +34,7 @@
 <!--  <br>-->
 <!--  <label for="file3" class="form-label">Photo 3:</label>-->
 <!--  <input class="form-control" type="file" name="file3" id="file3"/>-->
-  <br>
+<!--  <br>-->
 
   <!--  <div style="color: red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name error</div>-->
   <!--    <div style="color: red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name error</div>-->

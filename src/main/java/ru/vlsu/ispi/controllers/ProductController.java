@@ -13,6 +13,7 @@ import ru.vlsu.ispi.repositories.ProductRepository;
 import ru.vlsu.ispi.services.ProductGroupService;
 import ru.vlsu.ispi.services.ProductService;
 
+import javax.servlet.annotation.MultipartConfig;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
@@ -45,36 +46,13 @@ public class ProductController {
         model.addAttribute("listProducts", listProducts);
         return "product/index";
     }
-
-    //    @GetMapping
-//    public String index(@RequestParam(name="selectByProductGroup", required = false) String productGroupId, Model model)
+//    @GetMapping("/createCharacteristics/{id}")
+//    public String createCharacteristics(Model model, @PathVariable("id") Long id)
 //    {
-//        String selectedParam;
-//        ProductGroup productGroup = null;
-//
-//        if(productGroupId == null)
-//        {
-//            selectedParam = "1";
-//        }
-//        else
-//        {
-//            productGroup = productGroupService.getProductGroup(Long.parseLong(productGroupId));
-//            selectedParam = productGroupId;
-//        }
-////        Page page = productService.list(productGroup, pageable);
-////        model.addAttribute("data", page);
-//        model.addAttribute("products", productService.list(productGroup));
-//        model.addAttribute("groups", productGroupService.groupList());
-//        model.addAttribute("selectedParam", selectedParam);
-//        return "product/index";
+//        Product product = productService.show(id);
+////        productService.createProductCharacteristics(product);
+//        return "redirect:/products/" + Long.toString(id);
 //    }
-    @GetMapping("/createCharacteristics/{id}")
-    public String createCharacteristics(Model model, @PathVariable("id") Long id)
-    {
-        Product product = productService.show(id);
-//        productService.createProductCharacteristics(product);
-        return "redirect:/products/" + Long.toString(id);
-    }
     @GetMapping("/new")
     public String newProduct(Model model)
     {
@@ -82,7 +60,6 @@ public class ProductController {
         model.addAttribute("groups", productGroupService.groupList());
         return "product/new.html";
     }
-
     @PostMapping()
     public String create(Model model, @RequestParam(name="file1", required = false) MultipartFile file1
             , @RequestParam(name="file2", required = false) MultipartFile file2
@@ -99,7 +76,7 @@ public class ProductController {
         product.setName(createProductDTO.getName());
         product.setDiscription(createProductDTO.getDiscription());
         product.setPrice(createProductDTO.getPrice());
-        product.setProductGroup(productGroupService.getProductGroup(createProductDTO.getProductGroupId()));
+        product.setProductGroup(productGroupService.show(createProductDTO.getProductGroupId()));
 //        productService.save(product, file1, file2, file3);
         productService.save(product);
         return "redirect:/products";

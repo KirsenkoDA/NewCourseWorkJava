@@ -1,125 +1,98 @@
-<html lang="en" xmlns:th="https://www.thymeleaf.org" >
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="Пример на bootstrap 4: Базовая панель администратора с фиксированной боковой панелью и навигационной панелью. Версия v4.0.0">
-    <meta name="author" content="">
-    <link rel="icon" href="../../../../favicon.ico">
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Title</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    </head>
+    <body>
+    <div id = "navigation" th:insert="parts/navbar :: navigation" class="bg-secondary text-white"></div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-3 px-1 bg-secondary text-white position-fixed" id="sticky-sidebar">
+                <div id = "groups" th:insert="parts/groups :: groups"></div>
+            </div>
+            <div class="col offset-3" id="main">
+                <h2 th:text="${selectedGroup.getName()}"></h2>
+                <div class="table-responsive">
+                    <table class="table table-striped table-sm">
+                        <tr name = "listProducts" th:each="Product : ${listProducts}">
+                            <td style="width: 5%;"><input th:type="hidden" th:href="@{/products/{id}(id=${Product.getId()})}" th:text="${Product.getId()}"></td>
+<!--                            <td>-->
 
-    <title>HAI Store</title>
+<!--                                <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">-->
+<!--                                    <div class="carousel-indicators">-->
+<!--                                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>-->
+<!--                                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>-->
+<!--                                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>-->
+<!--                                    </div>-->
+<!--                                    &lt;!&ndash;                                <div class="carousel-inner">&ndash;&gt;-->
+<!--                                    &lt;!&ndash;                                    <div class="carousel-item active">&ndash;&gt;-->
+<!--                                    &lt;!&ndash;                                        <img th:src="@{/imagesLob/{id}(id=${Product.getImages.get(0).getId()})}}" class="d-block w-100" alt="...">&ndash;&gt;-->
+<!--                                    &lt;!&ndash;                                    </div>&ndash;&gt;-->
+<!--                                    &lt;!&ndash;                                    <div class="carousel-item">&ndash;&gt;-->
+<!--                                    &lt;!&ndash;                                        <img th:src="@{/imagesLob/{id}(id=${Product.getImages.get(1).getId()})}" class="d-block w-100" alt="...">&ndash;&gt;-->
+<!--                                    &lt;!&ndash;                                    </div>&ndash;&gt;-->
+<!--                                    &lt;!&ndash;                                    <div class="carousel-item">&ndash;&gt;-->
+<!--                                    &lt;!&ndash;                                        <img th:src="@{/imagesLob/{id}(id=${Product.getImages.get(2).getId()})}" class="d-block w-100" alt="...">&ndash;&gt;-->
+<!--                                    &lt;!&ndash;                                    </div>&ndash;&gt;-->
+<!--                                    &lt;!&ndash;                                </div>&ndash;&gt;-->
+<!--                                    &lt;!&ndash;                                <img th:src="@{/imagesLob/{id}(id=${Product.getImages.get(2).getId()})}" class="d-block w-100" alt="...">&ndash;&gt;-->
+<!--                                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"  data-bs-slide="prev">-->
+<!--                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>-->
+<!--                                        <span class="visually-hidden">Предыдущий</span>-->
+<!--                                    </button>-->
+<!--                                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"  data-bs-slide="next">-->
+<!--                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>-->
+<!--                                        <span class="visually-hidden">Следующий</span>-->
+<!--                                    </button>-->
+<!--                                </div>-->
 
-    <!-- Bootstrap core CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+<!--                            </td>-->
+<!--                            <td>-->
+<!--                                <img th:src="@{/imagesLob/{id}(id=${Product.getImages.get(0).getId()})}" class="d-block w-100" alt="...">-->
+<!--                                <img th:src="@{/imagesLob/{id}(id=${Product.getImages.get(1).getId()})}" class="d-block w-100" alt="...">-->
+<!--                                <img th:src="@{/imagesLob/{id}(id=${Product.getImages.get(2).getId()})}" class="d-block w-100" alt="...">-->
+<!--                            </td>-->
+                            <td>
+                                <h4><a th:href="@{/products/{id}(id=${Product.getId()})}" th:text="${Product.getName()}">products</a></h4>
+                                <br>
+                                <p th:text="${Product.getDiscription()}"></p>
+                            </td>
+                            <td><a th:text="${Product.getPrice()}">products</a></td>
+                            <td>
+                                <a th:href="@{/carts/addToCart/{id}(id=${Product.getId()})}"><svg viewBox="0 0 512 512.00108" xmlns="http://www.w3.org/2000/svg" width="25" height="25"><path d="m476.074219 213.902344c-2.847657-3.199219-6.925781-5.03125-11.210938-5.03125h-417.726562c-4.285157 0-8.363281 1.832031-11.210938 5.03125-2.84375 3.199218-4.1875 7.464844-3.6875 11.71875l27.4375 233.246094c3.449219 29.296874 30.257813 53.132812 59.757813 53.132812h281.164062c8.285156 0 15-6.714844 15-15 0-6.789062-4.511718-12.515625-10.699218-14.367188l44.355468-148.242187c.820313.246094 1.667969.4375 2.546875.539063 8.230469.980468 15.679688-4.917969 16.648438-13.144532l11.316406-96.160156c.496094-4.253906-.84375-8.523438-3.691406-11.722656zm0 0" fill="#ff9f00"/><path d="m476.074219 213.902344c-2.847657-3.199219-6.925781-5.03125-11.210938-5.03125h-208.863281v303.128906h144.597656c8.285156 0 15-6.714844 15-15 0-6.789062-4.515625-12.515625-10.703125-14.367188l44.359375-148.242187c.820313.246094 1.667969.4375 2.546875.539063 8.230469.980468 15.679688-4.917969 16.648438-13.144532l11.3125-96.160156c.5-4.253906-.839844-8.523438-3.6875-11.722656zm0 0" fill="#ff641a"/><path d="m400.597656 289.203125c-61.425781 0-111.398437 49.972656-111.398437 111.398437 0 61.425782 49.972656 111.398438 111.398437 111.398438 61.425782 0 111.398438-49.972656 111.398438-111.398438 0-61.425781-49.972656-111.398437-111.398438-111.398437zm0 0" fill="#54e360"/><path d="m511.996094 400.601562c0-61.425781-49.972656-111.398437-111.394532-111.398437v222.796875c61.421876 0 111.394532-49.972656 111.394532-111.398438zm0 0" fill="#1fbf66"/><path d="m432.730469 385.601562h-17.132813v-17.132812c0-8.285156-6.714844-15-15-15-8.28125 0-15 6.714844-15 15v17.132812h-17.132812c-8.28125 0-15 6.714844-15 15 0 8.285157 6.71875 15 15 15h17.132812v17.132813c0 8.285156 6.71875 15 15 15 8.285156 0 15-6.714844 15-15v-17.132813h17.132813c8.285156 0 15-6.714843 15-15 0-8.285156-6.714844-15-15-15zm0 0" fill="#e7f0ef"/><path d="m188.871094 174.609375c-5.886719 0-11.472656-3.488281-13.863282-9.265625l-59.898437-144.597656c-3.171875-7.652344.464844-16.429688 8.117187-19.601563 7.652344-3.164062 16.429688.464844 19.597657 8.121094l59.898437 144.597656c3.171875 7.65625-.464844 16.429688-8.117187 19.601563-1.878907.777344-3.824219 1.144531-5.734375 1.144531zm0 0" fill="#c5e1e6"/><path d="m322.683594 174.609375c-1.914063 0-3.855469-.367187-5.734375-1.148437-7.652344-3.167969-11.289063-11.941407-8.117188-19.597657l59.898438-144.597656c3.167969-7.65625 11.941406-11.289063 19.597656-8.121094 7.652344 3.171875 11.289063 11.945313 8.117187 19.601563l-59.898437 144.601562c-2.390625 5.773438-7.976563 9.261719-13.863281 9.261719zm0 0" fill="#8db9c4"/><path d="m464.863281 144.601562h-417.726562c-25.992188 0-47.136719 21.144532-47.136719 47.132813 0 25.992187 21.144531 47.136719 47.136719 47.136719h417.726562c25.992188 0 47.132813-21.144532 47.132813-47.136719 0-25.988281-21.140625-47.132813-47.132813-47.132813zm0 0" fill="#ffd400"/><path d="m464.863281 144.601562h-208.863281v94.269532h208.863281c25.992188 0 47.132813-21.148438 47.132813-47.136719s-21.140625-47.132813-47.132813-47.132813zm0 0" fill="#ff9f04"/><path d="m432.730469 385.601562h-17.132813v-17.132812c0-8.285156-6.714844-15-15-15v94.265625c8.285156 0 15-6.714844 15-15v-17.132813h17.132813c8.285156 0 15-6.714843 15-15 0-8.285156-6.714844-15-15-15zm0 0" fill="#c5e1e6"/></svg></a></td>
+                        </tr>
+                    </table>
+                </div>
 
-    <!-- Custom styles for this template -->
-    <link href="dashboard.css" rel="stylesheet">
-    <style type="text/css">/* Chart.js */
-    @-webkit-keyframes chartjs-render-animation{from{opacity:0.99}to{opacity:1}}@keyframes chartjs-render-animation{from{opacity:0.99}to{opacity:1}}.chartjs-render-monitor{-webkit-animation:chartjs-render-animation 0.001s;animation:chartjs-render-animation 0.001s;}</style><link rel="preconnect" href="https://yastatic.net/"><link rel="preconnect" href="https://avatars.mds.yandex.net/"><link rel="preconnect" href="https://mc.yandex.ru/"><link rel="preconnect" href="https://ads.adfox.ru"><script async="" crossorigin="anonymous" src="https://yastatic.net/safeframe-bundles/0.83/host.js"></script><link rel="preload" href="https://yastatic.net/s3/home/fonts/ys/3/text-variable-full.woff2" type="font/woff2" as="font" crossorigin="anonymous"><style id="ysTextCssRule">@font-face {
-    font-family: "YS Text Variable";
-    src: url("https://yastatic.net/s3/home/fonts/ys/3/text-variable-full.woff2") format("woff2");
-    font-weight: 400 700;
-    font-display: optional;
-  }</style></head>
-
-  <body>
-
-  <div id = "navigation" th:insert="parts/navbar :: navigation"></div>
-
-  <div class="container-fluid">
-    <div class="row">
-      <nav class="col-md-2 d-none d-md-block bg-light sidebar">
-        <div class="sidebar-sticky">
-          <ul class="nav flex-column" th:each="ProductGroup : ${groups}">
-            <li class="nav-item">
-<!--              <a class="nav-link active" th:href="@{/home/page/1?selectByProductGroup={id}(id=${ProductGroup.getId()})}">-->
-                <span th:utext="${ProductGroup.getSvgIcon()}"></span>
-                <span th:text="${ProductGroup.getName()}"></span><span class="sr-only"></span>
-              </a>
-            </li>
-          </ul>
+                <div th:if="${totalPages > 1}">
+                    <div class="row col-sm-10">
+                        <div class="col-sm-2">
+                            Total Rows: [[${totalItems}]]
+                        </div>
+                        <div class="col-sm-1">
+                            <a th:if="${currentPage > 1}" th:href="@{'/home/page/' + ${currentPage - 1} + '?selectByProductGroup=' + ${selectedParam}}"><<</a>
+                            <span th:unless="${currentPage > 1}"><<</span>
+                        </div>
+                        <div class="col-sm-1">
+                <span th:each="i: ${#numbers.sequence(1, totalPages)}">
+                    <a th:if="${currentPage != i}" th:href="@{'/home/page/' + ${i} + '?selectByProductGroup=' + ${selectedParam}}">[[${i}]]</a>
+                    <span th:unless="${currentPage != i}">[[${i}]]</span> &nbsp; &nbsp;
+                </span>
+                        </div>
+                        <div class="col-sm-1">
+                            <a th:if="${currentPage < totalPages}" th:href="@{'/home/page/' + ${currentPage + 1} + '?selectByProductGroup=' + ${selectedParam}}">>></a>
+                            <span th:unless="${currentPage < totalPages}">>></span>
+                        </div>
+                        <div class="col-sm-1">
+                            <a th:if="${currentPage < totalPages}" th:href="@{'/home/page/' + ${totalPages} + '?selectByProductGroup=' + ${selectedParam}}">Last</a>
+                            <span th:unless="${currentPage < totalPages}">Last</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-      </nav>
-      <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4"><div class="chartjs-size-monitor" style="position: absolute; inset: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;"><div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div></div><div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:200%;height:200%;left:0; top:0"></div></div></div>
-        <h2 th:text="${selectedGroup.getName()}"></h2>
-        <div class="table-responsive">
-          <table class="table table-striped table-sm">
-            <tr name = "listProducts" th:each="Product : ${listProducts}">
-              <td style="width: 5%;"><input th:type="hidden" th:href="@{/products/{id}(id=${Product.getId()})}" th:text="${Product.getId()}"></td>
-<!--              <td>-->
-<!--  -->
-<!--&lt;!&ndash;                <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">&ndash;&gt;-->
-<!--&lt;!&ndash;                  <div class="carousel-indicators">&ndash;&gt;-->
-<!--&lt;!&ndash;                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>&ndash;&gt;-->
-<!--&lt;!&ndash;                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>&ndash;&gt;-->
-<!--&lt;!&ndash;                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>&ndash;&gt;-->
-<!--&lt;!&ndash;                  </div>&ndash;&gt;-->
-<!--&lt;!&ndash;                  &lt;!&ndash;                                <div class="carousel-inner">&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;                  &lt;!&ndash;                                    <div class="carousel-item active">&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;                  &lt;!&ndash;                                        <img th:src="@{/imagesLob/{id}(id=${Product.getImages.get(0).getId()})}}" class="d-block w-100" alt="...">&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;                  &lt;!&ndash;                                    </div>&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;                  &lt;!&ndash;                                    <div class="carousel-item">&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;                  &lt;!&ndash;                                        <img th:src="@{/imagesLob/{id}(id=${Product.getImages.get(1).getId()})}" class="d-block w-100" alt="...">&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;                  &lt;!&ndash;                                    </div>&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;                  &lt;!&ndash;                                    <div class="carousel-item">&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;                  &lt;!&ndash;                                        <img th:src="@{/imagesLob/{id}(id=${Product.getImages.get(2).getId()})}" class="d-block w-100" alt="...">&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;                  &lt;!&ndash;                                    </div>&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;                  &lt;!&ndash;                                </div>&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;                  &lt;!&ndash;                                <img th:src="@{/imagesLob/{id}(id=${Product.getImages.get(2).getId()})}" class="d-block w-100" alt="...">&ndash;&gt;&ndash;&gt;-->
-<!--&lt;!&ndash;                  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"  data-bs-slide="prev">&ndash;&gt;-->
-<!--&lt;!&ndash;                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>&ndash;&gt;-->
-<!--&lt;!&ndash;                    <span class="visually-hidden">Предыдущий</span>&ndash;&gt;-->
-<!--&lt;!&ndash;                  </button>&ndash;&gt;-->
-<!--&lt;!&ndash;                  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"  data-bs-slide="next">&ndash;&gt;-->
-<!--&lt;!&ndash;                    <span class="carousel-control-next-icon" aria-hidden="true"></span>&ndash;&gt;-->
-<!--&lt;!&ndash;                    <span class="visually-hidden">Следующий</span>&ndash;&gt;-->
-<!--&lt;!&ndash;                  </button>&ndash;&gt;-->
-<!--&lt;!&ndash;                </div>&ndash;&gt;-->
-<!--  -->
-<!--              </td>-->
-<!--              <td>-->
-<!--                <img th:src="@{/imagesLob/{id}(id=${Product.getImages.get(0).getId()})}" class="d-block w-100" alt="...">-->
-<!--                <img th:src="@{/imagesLob/{id}(id=${Product.getImages.get(1).getId()})}" class="d-block w-100" alt="...">-->
-<!--                <img th:src="@{/imagesLob/{id}(id=${Product.getImages.get(2).getId()})}" class="d-block w-100" alt="...">-->
-<!--              </td>-->
-              <td>
-                <h4><a th:href="@{/products/{id}(id=${Product.getId()})}" th:text="${Product.getName()}">products</a></h4>
-                <br>
-                <p th:text="${Product.getDiscription()}"></p>
-              </td>
-              <td><a th:text="${Product.getPrice()}">products</a></td>
-              <td>
-                <a th:href="@{/carts/addToCart/{id}(id=${Product.getId()})}"><svg viewBox="0 0 512 512.00108" xmlns="http://www.w3.org/2000/svg" width="25" height="25"><path d="m476.074219 213.902344c-2.847657-3.199219-6.925781-5.03125-11.210938-5.03125h-417.726562c-4.285157 0-8.363281 1.832031-11.210938 5.03125-2.84375 3.199218-4.1875 7.464844-3.6875 11.71875l27.4375 233.246094c3.449219 29.296874 30.257813 53.132812 59.757813 53.132812h281.164062c8.285156 0 15-6.714844 15-15 0-6.789062-4.511718-12.515625-10.699218-14.367188l44.355468-148.242187c.820313.246094 1.667969.4375 2.546875.539063 8.230469.980468 15.679688-4.917969 16.648438-13.144532l11.316406-96.160156c.496094-4.253906-.84375-8.523438-3.691406-11.722656zm0 0" fill="#ff9f00"/><path d="m476.074219 213.902344c-2.847657-3.199219-6.925781-5.03125-11.210938-5.03125h-208.863281v303.128906h144.597656c8.285156 0 15-6.714844 15-15 0-6.789062-4.515625-12.515625-10.703125-14.367188l44.359375-148.242187c.820313.246094 1.667969.4375 2.546875.539063 8.230469.980468 15.679688-4.917969 16.648438-13.144532l11.3125-96.160156c.5-4.253906-.839844-8.523438-3.6875-11.722656zm0 0" fill="#ff641a"/><path d="m400.597656 289.203125c-61.425781 0-111.398437 49.972656-111.398437 111.398437 0 61.425782 49.972656 111.398438 111.398437 111.398438 61.425782 0 111.398438-49.972656 111.398438-111.398438 0-61.425781-49.972656-111.398437-111.398438-111.398437zm0 0" fill="#54e360"/><path d="m511.996094 400.601562c0-61.425781-49.972656-111.398437-111.394532-111.398437v222.796875c61.421876 0 111.394532-49.972656 111.394532-111.398438zm0 0" fill="#1fbf66"/><path d="m432.730469 385.601562h-17.132813v-17.132812c0-8.285156-6.714844-15-15-15-8.28125 0-15 6.714844-15 15v17.132812h-17.132812c-8.28125 0-15 6.714844-15 15 0 8.285157 6.71875 15 15 15h17.132812v17.132813c0 8.285156 6.71875 15 15 15 8.285156 0 15-6.714844 15-15v-17.132813h17.132813c8.285156 0 15-6.714843 15-15 0-8.285156-6.714844-15-15-15zm0 0" fill="#e7f0ef"/><path d="m188.871094 174.609375c-5.886719 0-11.472656-3.488281-13.863282-9.265625l-59.898437-144.597656c-3.171875-7.652344.464844-16.429688 8.117187-19.601563 7.652344-3.164062 16.429688.464844 19.597657 8.121094l59.898437 144.597656c3.171875 7.65625-.464844 16.429688-8.117187 19.601563-1.878907.777344-3.824219 1.144531-5.734375 1.144531zm0 0" fill="#c5e1e6"/><path d="m322.683594 174.609375c-1.914063 0-3.855469-.367187-5.734375-1.148437-7.652344-3.167969-11.289063-11.941407-8.117188-19.597657l59.898438-144.597656c3.167969-7.65625 11.941406-11.289063 19.597656-8.121094 7.652344 3.171875 11.289063 11.945313 8.117187 19.601563l-59.898437 144.601562c-2.390625 5.773438-7.976563 9.261719-13.863281 9.261719zm0 0" fill="#8db9c4"/><path d="m464.863281 144.601562h-417.726562c-25.992188 0-47.136719 21.144532-47.136719 47.132813 0 25.992187 21.144531 47.136719 47.136719 47.136719h417.726562c25.992188 0 47.132813-21.144532 47.132813-47.136719 0-25.988281-21.140625-47.132813-47.132813-47.132813zm0 0" fill="#ffd400"/><path d="m464.863281 144.601562h-208.863281v94.269532h208.863281c25.992188 0 47.132813-21.148438 47.132813-47.136719s-21.140625-47.132813-47.132813-47.132813zm0 0" fill="#ff9f04"/><path d="m432.730469 385.601562h-17.132813v-17.132812c0-8.285156-6.714844-15-15-15v94.265625c8.285156 0 15-6.714844 15-15v-17.132813h17.132813c8.285156 0 15-6.714843 15-15 0-8.285156-6.714844-15-15-15zm0 0" fill="#c5e1e6"/></svg></a></td>
-            </tr>
-          </table>
-        </div>
-
-        <div th:if="${totalPages > 1}">
-          <div class="row col-sm-10">
-            <div class="col-sm-2">
-              Total Rows: [[${totalItems}]]
-            </div>
-            <div class="col-sm-1">
-              <a th:if="${currentPage > 1}" th:href="@{'/home/page/' + ${currentPage - 1} + '?selectByProductGroup=' + ${selectedParam}}"><<</a>
-              <span th:unless="${currentPage > 1}"><<</span>
-            </div>
-            <div class="col-sm-1">
-                  <span th:each="i: ${#numbers.sequence(1, totalPages)}">
-                      <a th:if="${currentPage != i}" th:href="@{'/home/page/' + ${i} + '?selectByProductGroup=' + ${selectedParam}}">[[${i}]]</a>
-                      <span th:unless="${currentPage != i}">[[${i}]]</span> &nbsp; &nbsp;
-                  </span>
-            </div>
-            <div class="col-sm-1">
-              <a th:if="${currentPage < totalPages}" th:href="@{'/home/page/' + ${currentPage + 1} + '?selectByProductGroup=' + ${selectedParam}}">>></a>
-              <span th:unless="${currentPage < totalPages}">>></span>
-            </div>
-            <div class="col-sm-1">
-              <a th:if="${currentPage < totalPages}" th:href="@{'/home/page/' + ${totalPages} + '?selectByProductGroup=' + ${selectedParam}}">Last</a>
-              <span th:unless="${currentPage < totalPages}">Last</span>
-            </div>
-          </div>
-        </div>
-      </main>
     </div>
-  </div>
-  </body>
+    </body>
 </html>
