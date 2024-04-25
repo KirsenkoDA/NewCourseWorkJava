@@ -36,11 +36,11 @@ public class Product {
     @ManyToOne(fetch = FetchType.EAGER)
     private ProductGroup productGroup;
 
-//    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "product")//(mappedBy)Товар связанный с фотографией будет записан в foreign key  в таблице images
-//    private List<Image> images = new ArrayList<>();
-//
-//    @Column(name = "preview_image_id")
-//    private Long previewImageId;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "product")//(mappedBy)Товар связанный с фотографией будет записан в foreign key  в таблице images
+    private List<Image> images = new ArrayList<>();
+
+    @Column(name = "preview_image_id")
+    private String previewImage;
 
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "product")
     private Cart cart;

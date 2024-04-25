@@ -57,6 +57,8 @@
                             <td>
                                 <h4><a th:href="@{/products/{id}(id=${Product.getId()})}" th:text="${Product.getName()}">products</a></h4>
                                 <br>
+                                <img th:src="${Product.getPreviewImage()}" width="70" height="70">
+                                <br>
                                 <p th:text="${Product.getDiscription()}"></p>
                             </td>
                             <td><a th:text="${Product.getPrice()}">products</a></td>

@@ -8,14 +8,15 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 import ru.vlsu.ispi.dto.productDTO.CreateProductDTO;
+import ru.vlsu.ispi.models.Image;
 import ru.vlsu.ispi.models.Product;
 import ru.vlsu.ispi.repositories.ProductRepository;
+import ru.vlsu.ispi.services.ImageService;
 import ru.vlsu.ispi.services.ProductGroupService;
 import ru.vlsu.ispi.services.ProductService;
 
-import javax.servlet.annotation.MultipartConfig;
-import javax.validation.Valid;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -23,13 +24,15 @@ import java.util.List;
 public class ProductController {
     private final ProductService productService;//инжект бина модели
     private final ProductGroupService productGroupService;
+    private final ImageService imageService;
 //    private final ProductCharacteristicService productCharacteristicService;
 //    private final CharacteristicService characteristicService;
     private final ProductRepository productRepository;
 
-    public ProductController(ProductService productService, ProductGroupService productGroupService, ProductRepository productRepository) {
+    public ProductController(ProductService productService, ProductGroupService productGroupService, ImageService imageService, ProductRepository productRepository) {
         this.productService = productService;
         this.productGroupService = productGroupService;
+        this.imageService = imageService;
         this.productRepository = productRepository;
     }
 
@@ -40,6 +43,11 @@ public class ProductController {
         Page<Product> page = productService.findPaginated(pageNo - 1, pageSize);
         List< Product > listProducts = page.getContent();
 
+//        List<List<Image>> images = new ArrayList<>();
+//        for(Product product: listProducts)
+//        {
+//            images.add(imageService.findAllByProduct(product));
+//        }
         model.addAttribute("currentPage", pageNo);
         model.addAttribute("totalPages", page.getTotalPages());
         model.addAttribute("totalItems", page.getTotalElements());
@@ -77,7 +85,26 @@ public class ProductController {
         product.setDiscription(createProductDTO.getDiscription());
         product.setPrice(createProductDTO.getPrice());
         product.setProductGroup(productGroupService.show(createProductDTO.getProductGroupId()));
+
 //        productService.save(product, file1, file2, file3);
+        productService.save(product);
+
+        Image image1 = new Image();
+        image1.setUrl(createProductDTO.getUrl1());
+        image1.setProduct(productService.show(product.getId()));
+        imageService.save(image1);
+
+        Image image2 = new Image();
+        image2.setUrl(createProductDTO.getUrl2());
+        image2.setProduct(productService.show(product.getId()));
+        imageService.save(image2);
+
+        Image image3 = new Image();
+        image3.setUrl(createProductDTO.getUrl3());
+        image3.setProduct(productService.show(product.getId()));
+        imageService.save(image3);
+
+        product.setPreviewImage(image1.getUrl());
         productService.save(product);
         return "redirect:/products";
     }

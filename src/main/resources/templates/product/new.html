@@ -18,10 +18,21 @@
 <!--  <div style="color: red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name error</div>-->
   <label for="discription" class="form-label">Discription: </label>
   <input class="form-control" th:field="*{discription}" type="text" id="discription" name="discription"/>
+
   <label for="price" class="form-label">price: </label>
   <input class="form-control" th:field="*{price}" type="number" id="price" name="price"/>
+
+  <label for="url1" class="form-label">Photo1URL: </label>
+  <input class="form-control" th:field="*{url1}" type="text" id="url1" name="url1"/>
+  <label for="url2" class="form-label">Photo2URL: </label>
+  <input class="form-control" th:field="*{url2}" type="text" id="url2" name="url2"/>
+  <label for="url3" class="form-label">Photo3URL: </label>
+  <input class="form-control" th:field="*{url3}" type="text" id="url3" name="url3"/>
+
+
   <label for="poductGroup" class="form-label">Product Group: </label>
   <select class="form-select" th:field="*{productGroupId}" id="poductGroup">
+
     <option th:each="ProductGroup : ${groups}" th:value="${ProductGroup.getId()}" th:text="${ProductGroup.getName()}">
     </option>
   </select>
