@@ -25,7 +25,7 @@
             <td><a th:text="${cart.getPrice()}">Price</a></td>
             <td><a th:text="${cart.getAmount()}">Amount</a></td>
             <td>
-                <form th:method="DELETE" th:action="@{/carts/{id}(id=${cart.getId()})}">
+                <form th:method="DELETE" th:action="@{/carts/delete/{id}(id=${cart.getId()})}">
                     <input class="btn btn-danger" type="submit" value="Delete">
                 </form>
             </td>

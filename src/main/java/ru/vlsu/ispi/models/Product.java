@@ -42,8 +42,8 @@ public class Product {
     @Column(name = "preview_image_id")
     private String previewImage;
 
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "product")
-    private Cart cart;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "product")
+    private List<Cart> carts;
 //    public void updateImageFromProduct(Image image, int index)
 //    {
 //        image.setProduct(this);
@@ -95,11 +95,11 @@ public class Product {
         this.productGroup = productGroup;
     }
 
-    public Cart getCart() {
-        return cart;
+    public List<Cart> getCarts() {
+        return carts;
     }
 
-    public void setCart(Cart cart) {
-        this.cart = cart;
+    public void setCarts(List<Cart> carts) {
+        this.carts = carts;
     }
 }

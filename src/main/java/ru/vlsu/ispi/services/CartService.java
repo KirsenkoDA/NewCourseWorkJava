@@ -27,5 +27,9 @@ public class CartService {
     {
         return cartRepository.findAllByUser(user);
     }
-    public void delete(Long id){cartRepository.deleteById(id);}
+    public void delete(long id)
+    {
+
+        cartRepository.deleteById(id);
+    }
 }

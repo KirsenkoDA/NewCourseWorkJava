@@ -11,6 +11,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 @Entity
 @Table(name = "user_table")
@@ -53,8 +54,8 @@ public class User  implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Set<Role> roles = new HashSet<>();
 
-    @OneToOne(fetch = FetchType.EAGER, mappedBy = "user")
-    private Cart cart;
+//    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
+//    private List<Cart> carts;
 //
 //    private LocalDateTime dateOfCreated;
 //
@@ -120,6 +121,14 @@ public class User  implements UserDetails {
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
+
+//    public List<Cart> getCarts() {
+//        return carts;
+//    }
+//
+//    public void setCarts(List<Cart> carts) {
+//        this.carts = carts;
+//    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
