@@ -2,99 +2,173 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>Title</title>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Интернет-магазин</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <style>
+            .table tbody tr {
+                background-color: #f8f9fa;
+                border-radius: 10px;
+            }
+            .table tbody tr:hover {
+                background-color: #e9ecef;
+            }
+        </style>
     </head>
     <body>
-    <div id = "navigation" th:insert="parts/navbar :: navigation" class="bg-secondary text-white"></div>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-3 px-1 bg-secondary text-white position-fixed" id="sticky-sidebar">
-                <div id = "groups" th:insert="parts/groups :: groups"></div>
-            </div>
-            <div class="col offset-3" id="main">
-                <h2 th:text="${selectedGroup.getName()}"></h2>
-                <div class="table-responsive">
-                    <table class="table table-striped table-sm">
-                        <tr name = "listProducts" th:each="Product : ${listProducts}">
-                            <td style="width: 5%;"><input th:type="hidden" th:href="@{/products/{id}(id=${Product.getId()})}" th:text="${Product.getId()}"></td>
-<!--                            <td>-->
 
-<!--                                <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">-->
-<!--                                    <div class="carousel-indicators">-->
-<!--                                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>-->
-<!--                                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>-->
-<!--                                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>-->
-<!--                                    </div>-->
-<!--                                    &lt;!&ndash;                                <div class="carousel-inner">&ndash;&gt;-->
-<!--                                    &lt;!&ndash;                                    <div class="carousel-item active">&ndash;&gt;-->
-<!--                                    &lt;!&ndash;                                        <img th:src="@{/imagesLob/{id}(id=${Product.getImages.get(0).getId()})}}" class="d-block w-100" alt="...">&ndash;&gt;-->
-<!--                                    &lt;!&ndash;                                    </div>&ndash;&gt;-->
-<!--                                    &lt;!&ndash;                                    <div class="carousel-item">&ndash;&gt;-->
-<!--                                    &lt;!&ndash;                                        <img th:src="@{/imagesLob/{id}(id=${Product.getImages.get(1).getId()})}" class="d-block w-100" alt="...">&ndash;&gt;-->
-<!--                                    &lt;!&ndash;                                    </div>&ndash;&gt;-->
-<!--                                    &lt;!&ndash;                                    <div class="carousel-item">&ndash;&gt;-->
-<!--                                    &lt;!&ndash;                                        <img th:src="@{/imagesLob/{id}(id=${Product.getImages.get(2).getId()})}" class="d-block w-100" alt="...">&ndash;&gt;-->
-<!--                                    &lt;!&ndash;                                    </div>&ndash;&gt;-->
-<!--                                    &lt;!&ndash;                                </div>&ndash;&gt;-->
-<!--                                    &lt;!&ndash;                                <img th:src="@{/imagesLob/{id}(id=${Product.getImages.get(2).getId()})}" class="d-block w-100" alt="...">&ndash;&gt;-->
-<!--                                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"  data-bs-slide="prev">-->
-<!--                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>-->
-<!--                                        <span class="visually-hidden">Предыдущий</span>-->
-<!--                                    </button>-->
-<!--                                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"  data-bs-slide="next">-->
-<!--                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>-->
-<!--                                        <span class="visually-hidden">Следующий</span>-->
-<!--                                    </button>-->
-<!--                                </div>-->
+        <div id = "navigation" th:insert="parts/navbar :: navigation"></div>
 
-<!--                            </td>-->
-<!--                            <td>-->
-<!--                                <img th:src="@{/imagesLob/{id}(id=${Product.getImages.get(0).getId()})}" class="d-block w-100" alt="...">-->
-<!--                                <img th:src="@{/imagesLob/{id}(id=${Product.getImages.get(1).getId()})}" class="d-block w-100" alt="...">-->
-<!--                                <img th:src="@{/imagesLob/{id}(id=${Product.getImages.get(2).getId()})}" class="d-block w-100" alt="...">-->
-<!--                            </td>-->
-                            <td>
-                                <h4><a th:href="@{/products/{id}(id=${Product.getId()})}" th:text="${Product.getName()}">products</a></h4>
-                                <br>
-                                <img th:src="${Product.getPreviewImage()}" width="70" height="70">
-                                <br>
-                                <p th:text="${Product.getDiscription()}"></p>
-                            </td>
-                            <td><a th:text="${Product.getPrice()}">products</a></td>
-                            <td>
-                                <a th:href="@{/carts/addToCart/{id}(id=${Product.getId()})}"><svg viewBox="0 0 512 512.00108" xmlns="http://www.w3.org/2000/svg" width="25" height="25"><path d="m476.074219 213.902344c-2.847657-3.199219-6.925781-5.03125-11.210938-5.03125h-417.726562c-4.285157 0-8.363281 1.832031-11.210938 5.03125-2.84375 3.199218-4.1875 7.464844-3.6875 11.71875l27.4375 233.246094c3.449219 29.296874 30.257813 53.132812 59.757813 53.132812h281.164062c8.285156 0 15-6.714844 15-15 0-6.789062-4.511718-12.515625-10.699218-14.367188l44.355468-148.242187c.820313.246094 1.667969.4375 2.546875.539063 8.230469.980468 15.679688-4.917969 16.648438-13.144532l11.316406-96.160156c.496094-4.253906-.84375-8.523438-3.691406-11.722656zm0 0" fill="#ff9f00"/><path d="m476.074219 213.902344c-2.847657-3.199219-6.925781-5.03125-11.210938-5.03125h-208.863281v303.128906h144.597656c8.285156 0 15-6.714844 15-15 0-6.789062-4.515625-12.515625-10.703125-14.367188l44.359375-148.242187c.820313.246094 1.667969.4375 2.546875.539063 8.230469.980468 15.679688-4.917969 16.648438-13.144532l11.3125-96.160156c.5-4.253906-.839844-8.523438-3.6875-11.722656zm0 0" fill="#ff641a"/><path d="m400.597656 289.203125c-61.425781 0-111.398437 49.972656-111.398437 111.398437 0 61.425782 49.972656 111.398438 111.398437 111.398438 61.425782 0 111.398438-49.972656 111.398438-111.398438 0-61.425781-49.972656-111.398437-111.398438-111.398437zm0 0" fill="#54e360"/><path d="m511.996094 400.601562c0-61.425781-49.972656-111.398437-111.394532-111.398437v222.796875c61.421876 0 111.394532-49.972656 111.394532-111.398438zm0 0" fill="#1fbf66"/><path d="m432.730469 385.601562h-17.132813v-17.132812c0-8.285156-6.714844-15-15-15-8.28125 0-15 6.714844-15 15v17.132812h-17.132812c-8.28125 0-15 6.714844-15 15 0 8.285157 6.71875 15 15 15h17.132812v17.132813c0 8.285156 6.71875 15 15 15 8.285156 0 15-6.714844 15-15v-17.132813h17.132813c8.285156 0 15-6.714843 15-15 0-8.285156-6.714844-15-15-15zm0 0" fill="#e7f0ef"/><path d="m188.871094 174.609375c-5.886719 0-11.472656-3.488281-13.863282-9.265625l-59.898437-144.597656c-3.171875-7.652344.464844-16.429688 8.117187-19.601563 7.652344-3.164062 16.429688.464844 19.597657 8.121094l59.898437 144.597656c3.171875 7.65625-.464844 16.429688-8.117187 19.601563-1.878907.777344-3.824219 1.144531-5.734375 1.144531zm0 0" fill="#c5e1e6"/><path d="m322.683594 174.609375c-1.914063 0-3.855469-.367187-5.734375-1.148437-7.652344-3.167969-11.289063-11.941407-8.117188-19.597657l59.898438-144.597656c3.167969-7.65625 11.941406-11.289063 19.597656-8.121094 7.652344 3.171875 11.289063 11.945313 8.117187 19.601563l-59.898437 144.601562c-2.390625 5.773438-7.976563 9.261719-13.863281 9.261719zm0 0" fill="#8db9c4"/><path d="m464.863281 144.601562h-417.726562c-25.992188 0-47.136719 21.144532-47.136719 47.132813 0 25.992187 21.144531 47.136719 47.136719 47.136719h417.726562c25.992188 0 47.132813-21.144532 47.132813-47.136719 0-25.988281-21.140625-47.132813-47.132813-47.132813zm0 0" fill="#ffd400"/><path d="m464.863281 144.601562h-208.863281v94.269532h208.863281c25.992188 0 47.132813-21.148438 47.132813-47.136719s-21.140625-47.132813-47.132813-47.132813zm0 0" fill="#ff9f04"/><path d="m432.730469 385.601562h-17.132813v-17.132812c0-8.285156-6.714844-15-15-15v94.265625c8.285156 0 15-6.714844 15-15v-17.132813h17.132813c8.285156 0 15-6.714843 15-15 0-8.285156-6.714844-15-15-15zm0 0" fill="#c5e1e6"/></svg></a></td>
-                        </tr>
-                    </table>
+        <div class="container-fluid">
+            <div class="row">
+                <!-- Sidebar -->
+                <div class="col-2 bg-dark text-white">
+                    <div id = "groups" th:insert="parts/groups :: groups"></div>
                 </div>
 
-                <div th:if="${totalPages > 1}">
-                    <div class="row col-sm-10">
-                        <div class="col-sm-2">
-                            Total Rows: [[${totalItems}]]
-                        </div>
-                        <div class="col-sm-1">
-                            <a th:if="${currentPage > 1}" th:href="@{'/home/page/' + ${currentPage - 1} + '?selectByProductGroup=' + ${selectedParam}}"><<</a>
-                            <span th:unless="${currentPage > 1}"><<</span>
-                        </div>
-                        <div class="col-sm-1">
-                <span th:each="i: ${#numbers.sequence(1, totalPages)}">
-                    <a th:if="${currentPage != i}" th:href="@{'/home/page/' + ${i} + '?selectByProductGroup=' + ${selectedParam}}">[[${i}]]</a>
-                    <span th:unless="${currentPage != i}">[[${i}]]</span> &nbsp; &nbsp;
-                </span>
-                        </div>
-                        <div class="col-sm-1">
-                            <a th:if="${currentPage < totalPages}" th:href="@{'/home/page/' + ${currentPage + 1} + '?selectByProductGroup=' + ${selectedParam}}">>></a>
-                            <span th:unless="${currentPage < totalPages}">>></span>
-                        </div>
-                        <div class="col-sm-1">
-                            <a th:if="${currentPage < totalPages}" th:href="@{'/home/page/' + ${totalPages} + '?selectByProductGroup=' + ${selectedParam}}">Last</a>
-                            <span th:unless="${currentPage < totalPages}">Last</span>
+                <!-- Таблица товаров -->
+                <div class="col-10 content">
+                    <h2>Товары</h2>
+                    <table class="table">
+                        <tbody>
+                            <tr name = "listProducts" th:each="Product : ${listProducts}">
+                                <td>
+                                    <img th:src="${Product.getPreviewImage()}" width="100" height="100" style="margin-top: 5px; margin-bottom: 5px; margin-left: 5px">
+                                </td>
+                                <td>
+                                    <h3><a th:href="@{/products/{id}(id=${Product.getId()})}" th:text="${Product.getName()}">products</a></h3>
+                                    <br>
+                                    <p th:text="${Product.getDiscription()}"></p>
+                                </td>
+                                <td style="vertical-align: middle;"><span th:text="${Product.getPrice()}"></span>₽</td>
+                                <td style="vertical-align: middle;">
+                                    <th:block th:if="${productsInCart.contains(Product)}">
+                                        <a th:href="@{/carts/addToCart/{id}(id=${Product.getId()})}">
+                                            <svg viewBox="-3 0 512 512" xmlns="http://www.w3.org/2000/svg" width="25" height="25"><path d="m494.925781 97.144531c-9.492187-10.839843-23.019531-16.8125-38.089843-16.8125h-113.785157v-65.332031c0-8.285156-6.714843-15-15-15h-80.332031c-8.285156 0-15 6.714844-15 15v65.332031h-140.316406l-3.667969-27.5c-3.953125-29.625-24.578125-52.832031-46.957031-52.832031h-26.777344c-8.285156 0-15 6.714844-15 15s6.714844 15 15 15h26.777344c4.8125 0 15.003906 10.175781 17.21875 26.796875l42.9375 322.039063c1.890625 14.195312 9.183594 27.484374 20.535156 37.421874 8.417969 7.371094 18.367188 12.273438 28.789062 14.324219-4.246093 7.808594-6.65625 16.753907-6.65625 26.25 0 30.421875 24.746094 55.167969 55.164063 55.167969s55.167969-24.746094 55.167969-55.167969c0-9.0625-2.210938-17.613281-6.101563-25.164062h78.601563c-3.890625 7.550781-6.101563 16.101562-6.101563 25.164062 0 30.421875 24.746094 55.167969 55.167969 55.167969 30.417969 0 55.164062-24.746094 55.164062-55.167969 0-9.0625-2.210937-17.613281-6.097656-25.164062h39.300782c8.28125 0 15-6.71875 15-15 0-8.285157-6.71875-15-15-15h-302.589844c-14.65625 0-28.671875-12.273438-30.609375-26.800781l-3.136719-23.535157h296.167969c14.320312 0 28.457031-5.472656 39.808593-15.40625 11.347657-9.9375 18.640626-23.230469 20.539063-37.425781l21.511719-161.367188c1.992187-14.941406-2.136719-29.144531-11.632813-39.988281zm-269.992187 359.6875c0 13.878907-11.289063 25.167969-25.167969 25.167969-13.875 0-25.164063-11.289062-25.164063-25.167969 0-13.875 11.289063-25.164062 25.164063-25.164062 13.878906 0 25.167969 11.289062 25.167969 25.164062zm176.734375 0c0 13.878907-11.289063 25.167969-25.167969 25.167969-13.875 0-25.164062-11.289062-25.164062-25.167969 0-13.875 11.289062-25.164062 25.164062-25.164062 13.878906 0 25.167969 11.289062 25.167969 25.164062zm-138.949219-426.832031h50.332031v65.160156c0 .058594-.007812.113282-.007812.171875 0 .058594.007812.117188.007812.175781v80.160157c0 8.28125 6.714844 15 15 15h5.289063l-44.558594 44.203125-44.558594-44.203125h3.496094c8.285156 0 15-6.71875 15-15zm214.101562 103.164062-21.511718 161.371094c-1.9375 14.523438-15.953125 26.796875-30.609375 26.796875h-300.167969l-28.128906-211h136.316406v50.335938h-24.917969c-6.078125 0-11.554687 3.667969-13.867187 9.285156-2.316406 5.621094-1.011719 12.082031 3.304687 16.363281l80.980469 80.332032c2.921875 2.902343 6.742188 4.351562 10.5625 4.351562s7.640625-1.449219 10.5625-4.351562l80.980469-80.332032c4.316406-4.28125 5.621093-10.742187 3.304687-16.363281-2.3125-5.617187-7.789062-9.285156-13.867187-9.285156h-26.710938v-50.335938h113.785157c6.296874 0 11.808593 2.335938 15.519531 6.574219 3.710937 4.242188 5.296875 10.015625 4.464843 16.257812zm0 0"/></svg>
+                                        </a>
+                                    </th:block>
+                                    <th:block th:unless="${productsInCart.contains(Product)}">
+                                        <a th:href="@{/carts/addToCart/{id}(id=${Product.getId()})}">
+                                            <svg id="Layer_1" enable-background="new 0 0 512 512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" width="40" height="40"><path d="m128.924 321.521h288.813c19.206 0 35.795-13.032 40.343-31.69l42.04-172.482c.872-3.578.053-7.358-2.222-10.255-2.275-2.896-5.754-4.587-9.437-4.587h-91.164c-12.942-43.548-53.329-75.403-101.023-75.403s-88.081 31.854-101.023 75.403h-93.661l-16.684-70.066c-1.288-5.405-6.117-9.22-11.674-9.22h-49.694c-6.627 0-12 5.373-12 12s5.373 12 12 12h40.216l59.684 250.639c-22.777 2.722-40.498 22.147-40.498 45.645 0 25.355 20.628 45.984 45.983 45.984h3.692c-18.303 8-31.13 26.269-31.13 47.487 0 28.564 23.239 51.804 51.804 51.804s51.805-23.239 51.805-51.804c0-21.218-12.827-39.488-31.13-47.487h226.338c-18.303 8-31.13 26.269-31.13 47.487 0 28.564 23.239 51.804 51.804 51.804s51.805-23.239 51.805-51.804c0-21.218-12.827-39.488-31.13-47.487h16.367c6.627 0 12-5.373 12-12s-5.373-12-12-12h-329.094c-12.122 0-21.983-9.862-21.983-21.984s9.862-21.984 21.983-21.984zm167.351-270.417c44.868 0 81.371 36.503 81.371 81.372 0 44.868-36.503 81.371-81.371 81.371s-81.372-36.503-81.372-81.371c0-44.869 36.504-81.372 81.372-81.372zm-105.199 75.403c-.111 1.976-.173 3.965-.173 5.969 0 58.102 47.27 105.371 105.372 105.371s105.371-47.269 105.371-105.371c0-2.003-.062-3.993-.173-5.969h71.712l-38.422 157.64c-1.95 8-8.792 13.374-17.025 13.374h-269.709l-40.723-171.014zm-37.786 338.272c-15.331 0-27.804-12.473-27.804-27.804s12.473-27.804 27.804-27.804c15.332 0 27.805 12.473 27.805 27.804s-12.473 27.804-27.805 27.804zm267.686 0c-15.331 0-27.804-12.473-27.804-27.804s12.473-27.804 27.804-27.804c15.332 0 27.805 12.473 27.805 27.804s-12.473 27.804-27.805 27.804zm-180.666-332.303c0-6.627 5.373-12 12-12h87.931c6.627 0 12 5.373 12 12s-5.373 12-12 12h-87.931c-6.628 0-12-5.373-12-12z"/></svg>
+                                        </a>
+                                    </th:block>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div th:if="${totalPages > 1}">
+                        <div class="row col-sm-10">
+                            <div class="col-sm-2">
+                                Total Rows: [[${totalItems}]]
+                            </div>
+                            <div class="col-sm-1">
+                                <a th:if="${currentPage > 1}" th:href="@{'/home/page/' + ${currentPage - 1} + '?selectByProductGroup=' + ${selectedParam}}"><<</a>
+                                <span th:unless="${currentPage > 1}"><<</span>
+                            </div>
+                            <div class="col-sm-1">
+                                            <span th:each="i: ${#numbers.sequence(1, totalPages)}">
+                                                <a th:if="${currentPage != i}" th:href="@{'/home/page/' + ${i} + '?selectByProductGroup=' + ${selectedParam}}">[[${i}]]</a>
+                                                <span th:unless="${currentPage != i}">[[${i}]]</span> &nbsp; &nbsp;
+                                            </span>
+                            </div>
+                            <div class="col-sm-1">
+                                <a th:if="${currentPage < totalPages}" th:href="@{'/home/page/' + ${currentPage + 1} + '?selectByProductGroup=' + ${selectedParam}}">>></a>
+                                <span th:unless="${currentPage < totalPages}">>></span>
+                            </div>
+                            <div class="col-sm-1">
+                                <a th:if="${currentPage < totalPages}" th:href="@{'/home/page/' + ${totalPages} + '?selectByProductGroup=' + ${selectedParam}}">Last</a>
+                                <span th:unless="${currentPage < totalPages}">Last</span>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     </body>
 </html>
+<!--<!DOCTYPE html>-->
+<!--<html lang="ru">-->
+<!--    <head>-->
+<!--        <meta charset="UTF-8">-->
+<!--        <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--        <title>Home</title>-->
+<!--        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">-->
+<!--        <style>-->
+<!--            .content {-->
+<!--                margin-left: 250px;-->
+<!--                padding: 20px;-->
+<!--                margin-top: 70px;-->
+<!--            }-->
+<!--        </style>-->
+<!--    </head>-->
+<!--    <body>-->
+<!--        <div id = "navigation" th:insert="parts/navbar :: navigation"></div>-->
+<!--        <div class="container-fluid mt-5">-->
+<!--            <div class="row">-->
+<!--                <div id = "groups" th:insert="parts/groups :: groups"></div>-->
+<!--                <div class="col-md-9 content">-->
+<!--                    <div class="table-responsive">-->
+<!--                        <table class="table table-striped table-sm">-->
+<!--                            <tr name = "listProducts" th:each="Product : ${listProducts}">-->
+<!--                                <td>-->
+<!--                                    <img th:src="${Product.getPreviewImage()}" width="100" height="100">-->
+<!--                                </td>-->
+<!--                                <td>-->
+<!--                                    <h4><a th:href="@{/products/{id}(id=${Product.getId()})}" th:text="${Product.getName()}">products</a></h4>-->
+<!--                                </td>-->
+<!--                                <td>-->
+<!--                                    <p th:text="${Product.getDiscription()}"></p>-->
+<!--                                </td>-->
+<!--                                <td style="display: flex; justify-content: center; align-items: center;"><span th:text="${Product.getPrice()}"></span>₽</td>-->
+<!--                                <td style="display: flex; justify-content: center; align-items: center;">-->
+<!--                                    <th:block th:if="${productsInCart.contains(Product)}">-->
+<!--                                        <a th:href="@{/carts/addToCart/{id}(id=${Product.getId()})}">-->
+<!--                                            <svg viewBox="-3 0 512 512" xmlns="http://www.w3.org/2000/svg" width="25" height="25"><path d="m494.925781 97.144531c-9.492187-10.839843-23.019531-16.8125-38.089843-16.8125h-113.785157v-65.332031c0-8.285156-6.714843-15-15-15h-80.332031c-8.285156 0-15 6.714844-15 15v65.332031h-140.316406l-3.667969-27.5c-3.953125-29.625-24.578125-52.832031-46.957031-52.832031h-26.777344c-8.285156 0-15 6.714844-15 15s6.714844 15 15 15h26.777344c4.8125 0 15.003906 10.175781 17.21875 26.796875l42.9375 322.039063c1.890625 14.195312 9.183594 27.484374 20.535156 37.421874 8.417969 7.371094 18.367188 12.273438 28.789062 14.324219-4.246093 7.808594-6.65625 16.753907-6.65625 26.25 0 30.421875 24.746094 55.167969 55.164063 55.167969s55.167969-24.746094 55.167969-55.167969c0-9.0625-2.210938-17.613281-6.101563-25.164062h78.601563c-3.890625 7.550781-6.101563 16.101562-6.101563 25.164062 0 30.421875 24.746094 55.167969 55.167969 55.167969 30.417969 0 55.164062-24.746094 55.164062-55.167969 0-9.0625-2.210937-17.613281-6.097656-25.164062h39.300782c8.28125 0 15-6.71875 15-15 0-8.285157-6.71875-15-15-15h-302.589844c-14.65625 0-28.671875-12.273438-30.609375-26.800781l-3.136719-23.535157h296.167969c14.320312 0 28.457031-5.472656 39.808593-15.40625 11.347657-9.9375 18.640626-23.230469 20.539063-37.425781l21.511719-161.367188c1.992187-14.941406-2.136719-29.144531-11.632813-39.988281zm-269.992187 359.6875c0 13.878907-11.289063 25.167969-25.167969 25.167969-13.875 0-25.164063-11.289062-25.164063-25.167969 0-13.875 11.289063-25.164062 25.164063-25.164062 13.878906 0 25.167969 11.289062 25.167969 25.164062zm176.734375 0c0 13.878907-11.289063 25.167969-25.167969 25.167969-13.875 0-25.164062-11.289062-25.164062-25.167969 0-13.875 11.289062-25.164062 25.164062-25.164062 13.878906 0 25.167969 11.289062 25.167969 25.164062zm-138.949219-426.832031h50.332031v65.160156c0 .058594-.007812.113282-.007812.171875 0 .058594.007812.117188.007812.175781v80.160157c0 8.28125 6.714844 15 15 15h5.289063l-44.558594 44.203125-44.558594-44.203125h3.496094c8.285156 0 15-6.71875 15-15zm214.101562 103.164062-21.511718 161.371094c-1.9375 14.523438-15.953125 26.796875-30.609375 26.796875h-300.167969l-28.128906-211h136.316406v50.335938h-24.917969c-6.078125 0-11.554687 3.667969-13.867187 9.285156-2.316406 5.621094-1.011719 12.082031 3.304687 16.363281l80.980469 80.332032c2.921875 2.902343 6.742188 4.351562 10.5625 4.351562s7.640625-1.449219 10.5625-4.351562l80.980469-80.332032c4.316406-4.28125 5.621093-10.742187 3.304687-16.363281-2.3125-5.617187-7.789062-9.285156-13.867187-9.285156h-26.710938v-50.335938h113.785157c6.296874 0 11.808593 2.335938 15.519531 6.574219 3.710937 4.242188 5.296875 10.015625 4.464843 16.257812zm0 0"/></svg>-->
+<!--                                        </a>-->
+<!--                                    </th:block>-->
+<!--                                    <th:block th:unless="${productsInCart.contains(Product)}">-->
+<!--                                        <a th:href="@{/carts/addToCart/{id}(id=${Product.getId()})}">-->
+<!--                                            <svg id="Layer_1" enable-background="new 0 0 512 512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" width="40" height="40"><path d="m128.924 321.521h288.813c19.206 0 35.795-13.032 40.343-31.69l42.04-172.482c.872-3.578.053-7.358-2.222-10.255-2.275-2.896-5.754-4.587-9.437-4.587h-91.164c-12.942-43.548-53.329-75.403-101.023-75.403s-88.081 31.854-101.023 75.403h-93.661l-16.684-70.066c-1.288-5.405-6.117-9.22-11.674-9.22h-49.694c-6.627 0-12 5.373-12 12s5.373 12 12 12h40.216l59.684 250.639c-22.777 2.722-40.498 22.147-40.498 45.645 0 25.355 20.628 45.984 45.983 45.984h3.692c-18.303 8-31.13 26.269-31.13 47.487 0 28.564 23.239 51.804 51.804 51.804s51.805-23.239 51.805-51.804c0-21.218-12.827-39.488-31.13-47.487h226.338c-18.303 8-31.13 26.269-31.13 47.487 0 28.564 23.239 51.804 51.804 51.804s51.805-23.239 51.805-51.804c0-21.218-12.827-39.488-31.13-47.487h16.367c6.627 0 12-5.373 12-12s-5.373-12-12-12h-329.094c-12.122 0-21.983-9.862-21.983-21.984s9.862-21.984 21.983-21.984zm167.351-270.417c44.868 0 81.371 36.503 81.371 81.372 0 44.868-36.503 81.371-81.371 81.371s-81.372-36.503-81.372-81.371c0-44.869 36.504-81.372 81.372-81.372zm-105.199 75.403c-.111 1.976-.173 3.965-.173 5.969 0 58.102 47.27 105.371 105.372 105.371s105.371-47.269 105.371-105.371c0-2.003-.062-3.993-.173-5.969h71.712l-38.422 157.64c-1.95 8-8.792 13.374-17.025 13.374h-269.709l-40.723-171.014zm-37.786 338.272c-15.331 0-27.804-12.473-27.804-27.804s12.473-27.804 27.804-27.804c15.332 0 27.805 12.473 27.805 27.804s-12.473 27.804-27.805 27.804zm267.686 0c-15.331 0-27.804-12.473-27.804-27.804s12.473-27.804 27.804-27.804c15.332 0 27.805 12.473 27.805 27.804s-12.473 27.804-27.805 27.804zm-180.666-332.303c0-6.627 5.373-12 12-12h87.931c6.627 0 12 5.373 12 12s-5.373 12-12 12h-87.931c-6.628 0-12-5.373-12-12z"/></svg>-->
+<!--                                        </a>-->
+<!--                                    </th:block>-->
+<!--                                </td>-->
+<!--                            </tr>-->
+<!--                        </table>-->
+<!--                        <div th:if="${totalPages > 1}">-->
+<!--                            <div class="row col-sm-10">-->
+<!--                                <div class="col-sm-2">-->
+<!--                                    Total Rows: [[${totalItems}]]-->
+<!--                                </div>-->
+<!--                                <div class="col-sm-1">-->
+<!--                                    <a th:if="${currentPage > 1}" th:href="@{'/home/page/' + ${currentPage - 1} + '?selectByProductGroup=' + ${selectedParam}}"><<</a>-->
+<!--                                    <span th:unless="${currentPage > 1}"><<</span>-->
+<!--                                </div>-->
+<!--                                <div class="col-sm-1">-->
+<!--                                    <span th:each="i: ${#numbers.sequence(1, totalPages)}">-->
+<!--                                        <a th:if="${currentPage != i}" th:href="@{'/home/page/' + ${i} + '?selectByProductGroup=' + ${selectedParam}}">[[${i}]]</a>-->
+<!--                                        <span th:unless="${currentPage != i}">[[${i}]]</span> &nbsp; &nbsp;-->
+<!--                                    </span>-->
+<!--                                </div>-->
+<!--                                <div class="col-sm-1">-->
+<!--                                    <a th:if="${currentPage < totalPages}" th:href="@{'/home/page/' + ${currentPage + 1} + '?selectByProductGroup=' + ${selectedParam}}">>></a>-->
+<!--                                    <span th:unless="${currentPage < totalPages}">>></span>-->
+<!--                                </div>-->
+<!--                                <div class="col-sm-1">-->
+<!--                                    <a th:if="${currentPage < totalPages}" th:href="@{'/home/page/' + ${totalPages} + '?selectByProductGroup=' + ${selectedParam}}">Last</a>-->
+<!--                                    <span th:unless="${currentPage < totalPages}">Last</span>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </body>-->
+<!--    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>-->
+<!--    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>-->
+<!--    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>-->
+<!--</html>-->
