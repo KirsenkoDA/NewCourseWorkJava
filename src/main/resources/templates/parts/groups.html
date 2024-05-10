@@ -5,7 +5,7 @@
     <body>
     <div th:fragment="groups" style="margin-top: 70px;">
             <h4>Группы товаров</h4>
-            <ul th:each="ProductGroup : ${groups}">
+            <ul th:each="ProductGroup : ${groups}" style="list-style-type:  none;">
                 <li>
                     <a style="color: white; text-decoration: none;" class="nav-link active link-offset-2 link-offset-3-hover link-white link-underline link-underline-opacity-0 link-underline-opacity-75-hover" th:href="@{/home/page/1?selectByProductGroup={id}(id=${ProductGroup.getId()})}">
                         <span th:utext="${ProductGroup.getSvgIcon()}"></span>

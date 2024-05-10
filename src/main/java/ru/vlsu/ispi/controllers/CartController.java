@@ -66,6 +66,31 @@ public class CartController {
         }
         return "redirect:/carts";
     }
+    @PostMapping("/increaseQty/{id}")
+    public String increaseQty(@PathVariable("id") Long cartId)
+    {
+        Cart cart = cartService.show(cartId);
+        cart.setQuantity(cart.getQuantity() + 1);
+        //Добавить условие, когда добавлю количество товара
+        cartService.addToCart(cart);
+        return "redirect:/carts";
+    }
+    @PostMapping("/reduceQty/{id}")
+    public String reduceQty(@PathVariable("id") Long cartId)
+    {
+        Cart cart = cartService.show(cartId);
+        int qty = cart.getQuantity() - 1;
+        if (qty == 0)
+        {
+            cartService.delete(cartId);
+        }
+        else {
+            cart.setQuantity(qty);
+        }
+        //Добавить условие, когда добавлю количество товара
+        cartService.addToCart(cart);
+        return "redirect:/carts";
+    }
     @PostMapping("/makeOrder")
     public String makeOrder(@AuthenticationPrincipal User user)
     {

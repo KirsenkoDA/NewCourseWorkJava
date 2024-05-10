@@ -4,32 +4,55 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Cart</title>
+    <style>
+        .table tbody tr {
+            background-color: #f8f9fa;
+            border-radius: 10px;
+        }
+        .table tbody tr:hover {
+            background-color: #e9ecef;
+        }
+
+    </style>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 </head>
 <body>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js" integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa" crossorigin="anonymous"></script>
 <div th:insert="parts/navbar :: navigation"></div>
-<div id="content" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
-    <h1>Дмитрий</h1>
-    <table class="table table-striped">
-        <tr>
-            <th>Product</th>
-            <th>Quantity</th>
-            <th>Price</th>
-            <th>Amount</th>
-        </tr>
-        <tr name = "carts" th:each="cart : ${carts}">
-            <td><a th:text="${cart.getProduct().getName()}">Name</a></td>
-            <td><a th:text="${cart.getQuantity()}">Quantity</a></td>
-            <td><a th:text="${cart.getPrice()}">Price</a></td>
-            <td><a th:text="${cart.getAmount()}">Amount</a></td>
+<div style="margin-top: 70px;" id="content" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4 content">
+    <h1>yyyyyyyyy</h1>
+    <table class="table">
+        <tbody>
+        <tr name = "listProducts" th:each="cart : ${carts}">
+            <td>
+                <img th:src="${cart.getProduct().getPreviewImage()}" width="100" height="100" style="margin-top: 5px; margin-bottom: 5px; margin-left: 5px">
+            </td>
+            <td>
+                <h3><a th:href="@{/products/{id}(id=${cart.getProduct().getId()})}" th:text="${cart.getProduct().getName()}">products</a></h3>
+            </td>
+            <td style="vertical-align: middle;"><span th:text="${cart.getPrice()}"></span>₽</td>
+            <td style="vertical-align: middle;"><span th:text="${cart.getQuantity()}"></span></td>
+
+            <td>
+                <form th:method="POST" th:action="@{/carts/increaseQty/{id}(id=${cart.getId()})}">
+                    <input class="btn btn-success" type="submit" value="+">
+                </form>
+            </td>
+            <td>
+                <form th:method="POST" th:action="@{/carts/reduceQty/{id}(id=${cart.getId()})}">
+                    <input class="btn btn-success" type="submit" value="-">
+                </form>
+            </td>
+
+            <td style="vertical-align: middle;"><span th:text="${cart.getAmount()}">Amount</span></td>
             <td>
                 <form th:method="DELETE" th:action="@{/carts/delete/{id}(id=${cart.getId()})}">
                     <input class="btn btn-danger" type="submit" value="Delete">
                 </form>
             </td>
         </tr>
+        </tbody>
     </table>
     <form th:method="POST" th:action="@{/carts/makeOrder}">
         <input class="btn btn-success" type="submit" value="Make order">

@@ -32,4 +32,8 @@ public class CartService {
 
         cartRepository.deleteById(id);
     }
+    public Cart show(Long id)
+    {
+        return cartRepository.findById(id).orElse(null);
+    }
 }

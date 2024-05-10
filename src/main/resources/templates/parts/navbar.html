@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="https://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
   <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -17,6 +17,7 @@
   </head>
   <body>
     <div th:fragment="navigation">
+      <div sec:authorize="hasAuthority('ROLE_ADMIN')" > Has Authority USER </div>
       <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
         <a class="navbar-brand" href="#">HAI Store</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -32,6 +33,35 @@
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#">Контакты</a>
+            </li>
+
+              <li class="nav-item dropdown" sec:authorize="hasRole('ROLE_ADMIN')">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Справочники
+                </a>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="/products/page/1">Справочник номенклатуры</a></li>
+                  <li><a class="dropdown-item" href="/productGroups">Справочник номенклатурных групп</a></li>
+                  <li><a class="dropdown-item" href="/users">Справочник Пользователей</a></li>
+                  <li><a class="dropdown-item" href="/characteristics">Справочник Характеристик</a></li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li><a class="dropdown-item" href="#">Something else here</a></li>
+                </ul>
+              </li>
+            <li>
+              &nbsp;&nbsp;&nbsp;
+              <a href="/carts">
+                <svg viewBox="0 0 105 91.85" width="35" height="35" xmlns="http://www.w3.org/2000/svg"><g id="Layer_2" data-name="Layer 2"><g id="Layer_2-2" fill="rgb(255,255,255)" data-name="Layer 2"><path d="m97.19 78.33h-48.46a12.86 12.86 0 0 1 -12.56-9.91l-1.28-5.36a.44.44 0 0 0 0-.1l-10.56-44.19h80.67v33.73a12.45 12.45 0 0 1 -12.43 12.43h-52.09l.52 2.33a7.87 7.87 0 0 0 7.69 6.07h48.5a2.5 2.5 0 0 1 0 5zm-57.9-18.4h53.28a7.43 7.43 0 0 0 7.43-7.43v-28.73h-69.33z"/><path d="m27.5 23.77a2.5 2.5 0 0 1 -2.39-1.77l-3.53-11.57a7.61 7.61 0 0 0 -7.33-5.43h-11.75a2.5 2.5 0 0 1 0-5h11.75a12.61 12.61 0 0 1 12.12 9l3.52 11.57a2.5 2.5 0 0 1 -1.66 3.12 2.31 2.31 0 0 1 -.73.08z"/><path d="m52.5 91.85a6.44 6.44 0 1 1 6.44-6.44 6.45 6.45 0 0 1 -6.44 6.44zm0-7.88a1.44 1.44 0 1 0 1.44 1.44 1.44 1.44 0 0 0 -1.44-1.41z"/><path d="m87.93 91.85a6.44 6.44 0 1 1 6.44-6.44 6.45 6.45 0 0 1 -6.44 6.44zm0-7.88a1.44 1.44 0 1 0 1.44 1.44 1.44 1.44 0 0 0 -1.44-1.41z"/></g></g></svg>
+              </a>
+              &nbsp;&nbsp;&nbsp;
+            </li>
+            <li class="nav-item">
+              <form th:action="@{/logout}" method="post" sec:authorize="isAuthenticated()">
+                <input type="submit" value="Выйти"/>
+              </form>
+              <form th:action="@{/login}" method="get" sec:authorize="isAnonymous()">
+                <input type="submit" value="Войти"/>
+              </form>
             </li>
           </ul>
         </div>

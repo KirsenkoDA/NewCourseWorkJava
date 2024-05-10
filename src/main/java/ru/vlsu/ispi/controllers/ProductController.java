@@ -35,6 +35,15 @@ public class ProductController {
         this.imageService = imageService;
         this.productRepository = productRepository;
     }
+    @GetMapping("/{id}")
+    public String show(@PathVariable Long id, Model model )
+    {
+        Product product = productService.show(id);
+
+        model.addAttribute("product", product);
+        model.addAttribute("images", product.getImages());
+        return "product/show.html";
+    }
 
     @GetMapping("/page/{pageNo}")
     public String findPaginated(@PathVariable(value = "pageNo") int pageNo, Model model) {
@@ -108,15 +117,7 @@ public class ProductController {
         productService.save(product);
         return "redirect:/products";
     }
-    @GetMapping("/{id}")
-    public String show(@PathVariable Long id, Model model )
-    {
-        Product product = productService.show(id);
 
-        model.addAttribute("product", product);
-//        model.addAttribute("images", product.getImages());
-        return "product/show.html";
-    }
 
     @DeleteMapping ("/{id}")
     public String delete(@PathVariable Long id)
