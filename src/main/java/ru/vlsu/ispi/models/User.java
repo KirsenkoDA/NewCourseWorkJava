@@ -54,6 +54,10 @@ public class User  implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Set<Role> roles = new HashSet<>();
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "wallet_id", referencedColumnName = "id")
+    private Wallet wallet;
+
 //    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
 //    private List<Cart> carts;
 //

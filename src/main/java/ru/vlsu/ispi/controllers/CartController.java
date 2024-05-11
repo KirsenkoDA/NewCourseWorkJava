@@ -102,20 +102,32 @@ public class CartController {
         salesTable.setStatus(statusService.show(1));
         salesTable.setUser(user);
         salesTable.setDateCreated(LocalDateTime.now());
-        salesTable.setAddress("Gus");
         //Сохранение нового заказа
         salesTableService.save(salesTable);
         salesTable.setId(salesTableService.findByStatusAndUser(statusService.show(1), user).getId());
         //Создание строк заказа
         for(Cart cart: carts)
         {
-            SalesLine salesLine = new SalesLine();
-            salesLine.setSalesTable(salesTable);
-            salesLine.setProduct(cart.getProduct());
-            salesLine.setQuantity(cart.getQuantity());
-            salesLine.setPrice(cart.getPrice());
-            salesLineService.save(salesLine);
-            cartService.delete(cart.getId());
+            Product product = cart.getProduct();
+            if(cart.getQuantity() < product.getQuantity())
+            {
+                //Изменение количества товара
+                product.setQuantity(product.getQuantity() - cart.getQuantity());
+                productService.save(product);
+                //Создание строк заказа
+                SalesLine salesLine = new SalesLine();
+                salesLine.setSalesTable(salesTable);
+                salesLine.setProduct(cart.getProduct());
+                salesLine.setQuantity(cart.getQuantity());
+                salesLine.setPrice(cart.getPrice());
+                salesLineService.save(salesLine);
+                //Очистка корзины
+                cartService.delete(cart.getId());
+            }
+            else
+            {
+                return "redirect:/carts";
+            }
         }
         return "redirect:/salesTables/" + salesTable.getId().toString();
     }

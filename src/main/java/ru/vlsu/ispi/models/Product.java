@@ -44,6 +44,9 @@ public class Product {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "product")
     private List<Cart> carts;
+
+    @Column(name = "quantity")
+    private int quantity;
 //    public void updateImageFromProduct(Image image, int index)
 //    {
 //        image.setProduct(this);
@@ -54,6 +57,14 @@ public class Product {
 //        image.setProduct(this);
 //        images.add(image);
 //    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
 
     public Long getId() {
         return id;

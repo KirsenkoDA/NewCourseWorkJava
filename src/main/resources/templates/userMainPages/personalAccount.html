@@ -1,61 +1,132 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://tymeleaf.org">
-<head>
-  <meta charset="UTF-8">
-  <title>Личный кабинет</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
-</head>
-<body>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js" integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa" crossorigin="anonymous"></script>
-<div id="container">
-  <div id = "navigation" th:insert="parts/navbar :: navigation"></div>
-  <div id = "header">
-    <H1>Заказы</H1>
-  </div>
-  <div id="content" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
-    <table class="table table-striped">
-      <tr>
-        <th>Код</th>
-        <th>Наименование</th>
-        <th>Цена</th>
-      </tr>
-      <tr name = "salesTables" th:each="salesTable : ${salesTables}">
-        <td><a th:text="${salesTable.getId()}">salesTables</a></td>
-        <td><a th:text="${salesTable.getDateCreated()}">salesTables</a></td>
-        <td><a th:text="${salesTable.getStatus().getName()}">salesTables</a></td>
-      </tr>
-    </table>
-    <div th:if="${totalPages > 1}">
-      <div class="row col-sm-10">
-        <div class="col-sm-2">
-          Total Rows: [[${totalItems}]]
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Личный кабинет</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+      body {
+        background-color: #fff; /* белый цвет фона */
+        color: #000; /* черный цвет текста */
+      }
+      .navbar {
+        background-color: #000; /* черный цвет панели навигации */
+        color: #fff; /* белый цвет текста в навигации */
+      }
+      .container {
+        margin-top: 70px;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      th, td {
+        border: 1px solid #000; /* черные границы ячеек таблицы */
+        padding: 8px;
+        text-align: center;
+      }
+      form {
+        background-color: #f2f2f2; /* черный цвет формы редактирования */
+        color: #000; /* белый цвет текста в форме */
+        padding: 20px;
+        border-radius: 5px;
+      }
+      .btn-primary {
+        background-color: #000; /* черный цвет кнопки */
+        border-color: #000;
+      }
+    </style>
+  </head>
+  <body>
+    <div id = "navigation" th:insert="parts/navbar :: navigation"></div>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <h3>Список заказов</h3>
+          <table>
+            <thead>
+              <tr>
+                <th>Номер заказа</th>
+                <th>Сумма заказа</th>
+                <th>Статус</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr name = "salesTables" th:each="salesTable : ${salesTables}">
+                <td><a th:text="${salesTable.getId()}">salesTables</a></td>
+                <td><a th:text="${salesTable.getDateCreated()}">salesTables</a></td>
+                <td>
+<!--                  Необходима доработка для других статусов-->
+                  <p th:if="${salesTable.getStatus().getName() == 'processing'}"><svg id="Layer_1" enable-background="new 0 0 68 68" height="25" width="25" viewBox="0 0 68 68" xmlns="http://www.w3.org/2000/svg"><g><path d="m34.04303 65.36651c18.52265-.0025 33.84232-16.15959 31.75439-35.41943-1.58643-14.63135-12.54492-24.229-22.70166-27.25-.48486-.14404-1.01025-.04004-1.4082.27832-.40479.32422-.62549.82617-.58936 1.34277l.41064 5.97363c.03906.58447.39648 1.09277.94287 1.33203.63477.27832 1.81543.79492 2.24951 1.021 5.23526 2.72515 8.8436 6.88533 10.94336 12.05811.15576.3833.59277.56934.97705.4126.38379-.15576.56836-.59326.4126-.97705-2.27506-5.6092-6.18258-9.98361-11.64063-12.82422-.47852-.24902-1.64355-.75928-2.38867-1.12402l-.41063-5.9756.07373-.07959c9.68066 2.87939 20.12598 12.02734 21.63818 25.97363 1.98316 18.29443-12.56241 33.75531-30.26611 33.75782-18.87824 0-32.85851-16.70976-30.2041-34.95947 1.11035-7.63574 4.82715-14.14942 11.04687-19.36035l.6416-.5376c.27002-.22607.34668-.60986.18311-.92236l-1.94922-3.73047 13.03369.5-5.52441 13.79736-2.24902-4.23242c-.24764-.46683-.87808-.52868-1.21973-.14941-1.06637 1.46078-6.546 5.64617-8.26269 14.7085-2.7007 14.25257 8.31106 29.16991 24.34667 29.16991h.00049c12.31641 0 22.41943-8.53076 24.56689-20.74414.34521-1.96436.45166-3.94043.31641-5.87304-.02881-.41309-.39111-.73193-.80029-.69531-.41309.02832-.72461.38672-.6958.7998.12646 1.81152.02637 3.66455-.29785 5.50879-2.01905 11.48388-11.51416 19.50439-23.08985 19.5039-15.10515 0-25.39702-14.07081-22.87305-27.39062 1.11208-5.87058 3.74593-9.61308 7.1875-13.1875l1.854 3.48828c.55036 1.03992 2.08006.97163 2.52344-.13574l5.66602-14.15039c.35827-.89515-.28001-1.87586-1.23975-1.91113l-13.36864-.5127c-1.06912-.04729-1.78305 1.08966-1.28809 2.03809l1.75439 3.3584-.17871.14941c-6.51123 5.45507-10.40332 12.2832-11.56836 20.29492-2.78749 19.16338 11.89927 36.67529 31.69141 36.67529z"/><path d="m19.90045 37.45196c-.41406 0-.75.33594-.75.75v6.67969c0 2.37695 1.93115 4.31055 4.30518 4.31055h21.08691c2.37402 0 4.30518-1.93359 4.30518-4.31055v-18.49219c0-2.37598-1.93115-4.30957-4.30518-4.30957h-21.08691c-2.37402 0-4.30518 1.93359-4.30518 4.30957v6.02929c0 .41455.33594.75.75.75s.75-.33545.75-.75v-6.02929c0-1.54932 1.2583-2.80957 2.80518-2.80957h6.20605v6.27148c0 1.06819 1.16003 1.72741 2.07373 1.18945l2.26221-1.32471 2.26221 1.32471c.91949.53879 2.07422-.1249 2.07422-1.18945v-6.27148h6.2085c1.54688 0 2.80518 1.26025 2.80518 2.80957v18.49219c0 1.5498-1.2583 2.81055-2.80518 2.81055h-21.08692c-1.54688 0-2.80518-1.26074-2.80518-2.81055v-6.67969c0-.41406-.33594-.75-.75-.75zm16.9336-7.81348-2.13965-1.25293c-.42887-.25147-.96514-.25121-1.39258 0l-2.14014 1.25293v-6.05713h5.67236v6.05713z"/><path d="m23.54694 41.59258h8.12451c.41406 0 .75-.33594.75-.75 0-.41455-.33594-.75-.75-.75h-8.12451c-.41406 0-.75.33545-.75.75 0 .41407.33593.75.75.75z"/><path d="m23.54694 45.00665h4.4165c.41406 0 .75-.33545.75-.75 0-.41406-.33594-.75-.75-.75h-4.4165c-.41406 0-.75.33594-.75.75 0 .41455.33593.75.75.75z"/><path d="m43.62994 45.57012c.86523 0 1.56885-.7041 1.56885-1.57031v-3.08887c0-.86621-.70361-1.57031-1.56885-1.57031h-6.23047c-.86523 0-1.56934.7041-1.56934 1.57031v3.08887c0 .86621.7041 1.57031 1.56934 1.57031zm-6.23046-4.72949h6.23047c.03809 0 .06885.03125.06885.07031l-.06885 3.15918-6.2998-.07031z"/></g></svg></p>
+                  <p th:if="${salesTable.getStatus().getName() == 'registered'}"><svg viewBox="0 -3 512 512" xmlns="http://www.w3.org/2000/svg" height="25" width="25"><path d="m409.726562 238.261719v-222.820313c0-8.535156-6.910156-15.441406-15.441406-15.441406-3.328125 0-368.976562 0-378.84375 0-8.535156 0-15.441406 6.90625-15.441406 15.441406v347.257813c0 8.527343 6.90625 15.441406 15.441406 15.441406h224.683594c4.191406 71.28125 63.507812 127.992187 135.824219 127.992187 75.015625 0 136.050781-61.035156 136.050781-136.050781 0-63.371093-43.546875-116.757812-102.273438-131.820312zm-33.777343 236.988281c-58.039063 0-105.175781-47.214844-105.175781-105.167969 0-59.886719 50.046874-107.023437 108.070312-105.136719 56.722656 1.558594 102.273438 48.144532 102.273438 105.136719 0 57.988281-47.179688 105.167969-105.167969 105.167969zm-345.066407-444.367188h106.988282v134.980469c0 12.234375 13.632812 19.648438 23.90625 12.917969l43.089844-28.214844 43.082031 28.214844c10.25 6.710938 23.902343-.636719 23.902343-12.917969v-134.980469h106.992188v203.167969c-68.292969-1.453125-125.96875 47.890625-137.039062 113.207031h-210.921876zm210.085938 106.414063-27.648438-18.109375c-5.140624-3.367188-11.785156-3.359375-16.914062 0l-27.652344 18.109375v-106.414063h72.214844zm0 0"/><path d="m418.125 330.417969c-49.984375 49.980469-4.859375 4.871093-59.335938 59.347656-23.535156-23.535156-12.863281-12.875-27.054687-27.066406-15.449219-15.445313-36.820313 6.871093-22.472656 21.21875l38.605469 38.601562c6.007812 6.007813 15.800781 6.046875 21.84375 0l70.257812-70.257812c14.417969-14.4375-7.382812-36.277344-21.84375-21.84375zm0 0"/></svg></p>
+                  <p th:if="${salesTable.getStatus().getName() == 'not registered'}"><svg id="Capa_1" enable-background="new 0 0 510 510" viewBox="0 0 510 510" xmlns="http://www.w3.org/2000/svg" height="25" width="25"><g><path d="m60 250.263h105v30h-105z"/><path d="m60.435 310.263h59.565v30h-59.565z"/><path d="m410 250.263v-235.526h-410v385.526h265v95h245v-245zm-235-205.526h60v112.445l-30-13.333-30 13.333zm-145 325.526v-325.526h115v158.608l60-26.667 60 26.667v-158.608h115v205.526h-115v120zm450 95h-185v-185h185z"/><path d="m352.498 428.978 35.002-35.002 35.002 35.002 21.213-21.213-35.002-35.002 35.002-35.002-21.213-21.213-35.002 35.002-35.002-35.002-21.213 21.213 35.002 35.002-35.002 35.002z"/></g></svg></p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-        <div class="col-sm-1">
-          <a th:if="${currentPage > 1}" th:href="@{'/home/personalAccount/page/' + ${currentPage - 1}}"><<</a>
-          <span th:unless="${currentPage > 1}"><<</span>
+        <div class="col-md-6">
+          <h3>Редактирование данных пользователя</h3>
+          <form th:action="@{/users/update}" th:method="POST" class="form-group" th:object="${userUpdateDTO}" >
+
+            <label class="form-label" for="id">Id: </label>
+            <input th:field="*{id}" class="form-control" type="hidden" name="id" id="id" readonly/>
+
+            <label class="form-label" for="name">Name: </label>
+            <input th:field="*{name}" class="form-control" type="text" name="name" id="name"/>
+            <div style="color: red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name error</div>
+
+            <label class="form-label" for="email">E-mail: </label>
+            <input th:field="*{email}" class="form-control" type="text" name="email" id="email"/>
+            <div style="color: red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+
+            <label class="form-label" for="phoneNumber">Phone number: </label>
+            <input th:field="*{phoneNumber}" class="form-control" type="text" name="phoneNumber" id="phoneNumber"/>
+            <div style="color: red" th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}"></div>
+
+            <input class="btn btn-primary" type="submit" value="Enter updates"/>
+          </form>
+          <form th:action="@{/users/topUp}" th:method="POST" class="form-group" th:object="${wallet}">
+            <label class="form-label" for="balance">Balance: </label>
+            <input th:field="*{balance}" class="form-control" type="text" name="balance" id="balance"/>
+            <button class="btn btn-primary mt-3"  type="submit">Пополнить баланс</button>
+          </form>
+          <button class="btn btn-primary mt-3">Пополнить баланс</button>
         </div>
-        <div class="col-sm-1">
-                        <span th:each="i: ${#numbers.sequence(1, totalPages)}">
-                          <a th:if="${currentPage != i}" th:href="@{'/home/personalAccount/page/' + ${i}}">[[${i}]]</a>
-                          <span th:unless="${currentPage != i}">[[${i}]]</span> &nbsp; &nbsp;
-                        </span>
+    <!--    Pagination-->
+        <div th:if="${totalPages > 1}">
+          <div class="row col-sm-10">
+            <div class="col-sm-2">
+              Total Rows: [[${totalItems}]]
+            </div>
+            <div class="col-sm-1">
+              <a th:if="${currentPage > 1}" th:href="@{'/home/personalAccount/page/' + ${currentPage - 1}}"><<</a>
+              <span th:unless="${currentPage > 1}"><<</span>
+            </div>
+            <div class="col-sm-1">
+              <span th:each="i: ${#numbers.sequence(1, totalPages)}">
+                <a th:if="${currentPage != i}" th:href="@{'/home/personalAccount/page/' + ${i}}">[[${i}]]</a>
+                <span th:unless="${currentPage != i}">[[${i}]]</span> &nbsp; &nbsp;
+              </span>
+            </div>
+            <div class="col-sm-1">
+              <a th:if="${currentPage < totalPages}" th:href="@{'/home/personalAccount/page/' + ${currentPage + 1}}">>></a>
+              <span th:unless="${currentPage < totalPages}">>></span>
+            </div>
+            <div class="col-sm-1">
+              <a th:if="${currentPage < totalPages}" th:href="@{'/home/personalAccount/page/' + ${totalPages}}">Last</a>
+              <span th:unless="${currentPage < totalPages}">Last</span>
+            </div>
+          </div>
         </div>
-        <div class="col-sm-1">
-          <a th:if="${currentPage < totalPages}" th:href="@{'/home/personalAccount/page/' + ${currentPage + 1}}">>></a>
-          <span th:unless="${currentPage < totalPages}">>></span>
-        </div>
-        <div class="col-sm-1">
-          <a th:if="${currentPage < totalPages}" th:href="@{'/home/personalAccount/page/' + ${totalPages}}">Last</a>
-          <span th:unless="${currentPage < totalPages}">Last</span>
-        </div>
+
       </div>
     </div>
-  </div>
 
-  <div id = "footer">
-    FOOTER
-  </div>
-</div>
-</body>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  </body>
 </html>

@@ -5,9 +5,12 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.vlsu.ispi.dto.UserUpdateDTO;
+import ru.vlsu.ispi.dto.UserUpdatePADTO;
 import ru.vlsu.ispi.models.Role;
 import ru.vlsu.ispi.models.User;
+import ru.vlsu.ispi.models.Wallet;
 import ru.vlsu.ispi.services.UserService;
+import ru.vlsu.ispi.services.WalletService;
 
 import javax.validation.Valid;
 import java.io.IOException;
@@ -19,9 +22,11 @@ import java.util.List;
 @RequestMapping("/users")
 public class UserController {
     private final UserService userService;
+    private final WalletService walletService;
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService, WalletService walletService) {
         this.userService = userService;
+        this.walletService = walletService;
     }
 
     @GetMapping("/registration")
@@ -91,26 +96,57 @@ public class UserController {
         return "user/edit.html";
     }
     @PostMapping("/update")
-    public String update(Model model, @Valid @ModelAttribute("userUpdateDTO") UserUpdateDTO userUpdateDTO , BindingResult bindingResult) throws IOException
+    public String update(Model model, @Valid @ModelAttribute("userUpdateDTO") UserUpdateDTO userUpdateDTO, @Valid @ModelAttribute("UserUpdatePADTO") UserUpdatePADTO userUpdatePADTO, BindingResult bindingResult) throws IOException
     {
-        if(bindingResult.hasErrors())
+        if(userUpdatePADTO == null)
         {
-            List<Role> allRoles = new ArrayList<>();
-            allRoles.addAll(Arrays.asList(Role.values()));
+            if(bindingResult.hasErrors())
+            {
+                List<Role> allRoles = new ArrayList<>();
+                allRoles.addAll(Arrays.asList(Role.values()));
 
-            model.addAttribute("userUpdateDTO", userUpdateDTO);
-            model.addAttribute("allRoles", allRoles);
-            return "user/edit.html";
+                model.addAttribute("userUpdateDTO", userUpdateDTO);
+                model.addAttribute("allRoles", allRoles);
+                return "user/edit.html";
+            }
+            User user = new User();
+            user.setId(userUpdateDTO.getId());
+            user.setName(userUpdateDTO.getName());
+            user.setEmail(userUpdateDTO.getEmail());
+            user.setPhoneNumber(userUpdateDTO.getPhoneNumber());
+            user.setRoles(userUpdateDTO.getRoles());
+            user.setActive(userUpdateDTO.isActive());
+            user.setPassword(userService.show(user.getId()).getPassword());
+            userService.save(user);
         }
-        User user = new User();
-        user.setId(userUpdateDTO.getId());
-        user.setName(userUpdateDTO.getName());
-        user.setEmail(userUpdateDTO.getEmail());
-        user.setPhoneNumber(userUpdateDTO.getPhoneNumber());
-        user.setRoles(userUpdateDTO.getRoles());
-        user.setActive(userUpdateDTO.isActive());
-        user.setPassword(userService.show(user.getId()).getPassword());
-        userService.save(user);
+        else
+        {
+            if(bindingResult.hasErrors())
+            {
+                List<Role> allRoles = new ArrayList<>();
+                allRoles.addAll(Arrays.asList(Role.values()));
+
+                model.addAttribute("userUpdatePADTO", userUpdatePADTO);
+                model.addAttribute("allRoles", allRoles);
+                return "userMainPages/personalAccount.html";
+            }
+            User user = new User();
+            User reqUser = userService.show(userUpdatePADTO.getId());
+            user.setId(userUpdatePADTO.getId());
+            user.setName(userUpdatePADTO.getName());
+            user.setEmail(userUpdatePADTO.getEmail());
+            user.setPhoneNumber(userUpdatePADTO.getPhoneNumber());
+            user.setRoles(reqUser.getRoles());
+            user.setActive(reqUser.isActive());
+            user.setPassword(reqUser.getPassword());
+            userService.save(user);
+        }
         return "redirect:/users";
+    }
+    @PostMapping("/topUp")
+    public String topUp(@ModelAttribute("wallet") Wallet wallet)
+    {
+        walletService.topUp(wallet);
+        return "userMainPages/personalAccount.html";
     }
 }

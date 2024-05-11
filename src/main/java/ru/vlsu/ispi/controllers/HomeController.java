@@ -8,13 +8,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import ru.vlsu.ispi.models.Product;
-import ru.vlsu.ispi.models.ProductGroup;
-import ru.vlsu.ispi.models.SalesTable;
-import ru.vlsu.ispi.models.User;
+import ru.vlsu.ispi.dto.UserUpdateDTO;
+import ru.vlsu.ispi.models.*;
 import ru.vlsu.ispi.services.ProductGroupService;
 import ru.vlsu.ispi.services.ProductService;
 import ru.vlsu.ispi.services.SalesTableService;
+import ru.vlsu.ispi.services.WalletService;
 
 import java.util.List;
 
@@ -24,11 +23,13 @@ public class HomeController {
     private final ProductService productService;
     private final ProductGroupService productGroupService;
     private final SalesTableService salesTableService;
+    private final WalletService walletService;
 
-    public HomeController(ProductService productService, ProductGroupService productGroupService, SalesTableService salesTableService) {
+    public HomeController(ProductService productService, ProductGroupService productGroupService, SalesTableService salesTableService, WalletService walletService) {
         this.productService = productService;
         this.productGroupService = productGroupService;
         this.salesTableService = salesTableService;
+        this.walletService = walletService;
     }
 
     @GetMapping("/personalAccount/page/{pageNo}")
@@ -37,6 +38,16 @@ public class HomeController {
         Page<SalesTable> page = salesTableService.findByUser(pageNo - 1, pageSize, user);
         List<SalesTable> salesTables = page.getContent();
 
+        UserUpdateDTO userUpdateDTO = new UserUpdateDTO();
+        userUpdateDTO.setId(user.getId());
+        userUpdateDTO.setName(user.getName());
+        userUpdateDTO.setEmail(user.getEmail());
+        userUpdateDTO.setPhoneNumber(userUpdateDTO.getPhoneNumber());
+        userUpdateDTO.setActive(userUpdateDTO.isActive());
+        userUpdateDTO.setRoles(user.getRoles());
+
+        model.addAttribute("wallet", user.getWallet());
+        model.addAttribute("userUpdateDTO", userUpdateDTO);
         model.addAttribute("currentPage", pageNo);
         model.addAttribute("totalPages", page.getTotalPages());
         model.addAttribute("totalItems", page.getTotalElements());
