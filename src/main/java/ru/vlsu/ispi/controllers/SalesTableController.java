@@ -46,6 +46,7 @@ public class SalesTableController {
         model.addAttribute("totalItems", page.getTotalElements());
         model.addAttribute("salesTables", salesTables);
         return "salesTable/index";
+        // НАГЛУХО ВОЩЕЕЕ ВСТАВАЙ ДОНБАС ВСТВАЙ МОЙ КРАЙ РОДНОЙ
     }
     @GetMapping("/{id}")
     public String show(@PathVariable Long id, Model model)
@@ -63,6 +64,6 @@ public class SalesTableController {
         salesTable.setAddress(address);
         salesTable.setStatus(statusService.show(2));
         salesTableService.save(salesTable);
-        return "salesTables/page/1";
+        return "redirect:/home/personalAccount/page/1";
     }
 }

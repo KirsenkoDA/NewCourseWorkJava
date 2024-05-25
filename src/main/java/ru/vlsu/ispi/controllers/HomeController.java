@@ -45,7 +45,9 @@ public class HomeController {
         userUpdateDTO.setPhoneNumber(userUpdateDTO.getPhoneNumber());
         userUpdateDTO.setActive(userUpdateDTO.isActive());
         userUpdateDTO.setRoles(user.getRoles());
+        int balance = user.getWallet().getBalance();
 
+        model.addAttribute("walletBalance", balance);
         model.addAttribute("wallet", user.getWallet());
         model.addAttribute("userUpdateDTO", userUpdateDTO);
         model.addAttribute("currentPage", pageNo);
@@ -80,6 +82,40 @@ public class HomeController {
 
         Page<Product> page = productService.findPaginatedByProductGroup(pageNo - 1, pageSize, productGroup);
         List< Product > listProducts = page.getContent();
+
+        model.addAttribute("groups", productGroupService.groupList());
+        model.addAttribute("selectedGroup", productGroupService.findById(Long.parseLong(selectedParam)));
+        model.addAttribute("selectedParam", selectedParam);
+        model.addAttribute("currentPage", pageNo);
+        model.addAttribute("totalPages", page.getTotalPages());
+        model.addAttribute("totalItems", page.getTotalElements());
+        model.addAttribute("listProducts", listProducts);
+        return "userMainPages/home.html";
+    }
+    @GetMapping("/page/{pageNo}/{filterBy}/{filterType}")
+    public String findPaginatedSorted(@PathVariable(value = "pageNo") int pageNo, Model model, @RequestParam(name="selectByProductGroup", required = false) String productGroupId, @PathVariable("filterBy") String filterBy, @PathVariable("filterType") String filterType)
+    {
+        String selectedParam;
+        ProductGroup productGroup = null;
+
+        if(productGroupId == null) {
+            productGroupId = "1";
+            productGroup = productGroupService.show(Long.parseLong(productGroupId));
+            selectedParam = productGroupId;
+        }
+        else
+        {
+            productGroup = productGroupService.show(Long.parseLong(productGroupId));
+            selectedParam = productGroupId;
+        }
+        int pageSize = 3;
+
+
+        Page<Product> page = productService.findByProductGroupSorted(pageNo - 1, pageSize, productGroup, filterBy, filterType);
+        List< Product > listProducts = page.getContent();
+
+        model.addAttribute("filterBy", filterBy);
+        model.addAttribute("filterType", filterType);
         model.addAttribute("groups", productGroupService.groupList());
         model.addAttribute("selectedGroup", productGroupService.findById(Long.parseLong(selectedParam)));
         model.addAttribute("selectedParam", selectedParam);

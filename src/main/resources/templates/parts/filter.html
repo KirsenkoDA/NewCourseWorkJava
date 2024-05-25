@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  </head>
+  <body>
+    <div th:fragment="filter">
+      <div class="container mt-5">
+        <div class="dropdown">
+          <div class="dropdown-menu filter-panel" aria-labelledby="dropdownMenuButton">
+            <h5>Панель фильтрации</h5>
+            <form>
+              <div class="form-group">
+                <label for="criteriaSelect">Выберите критерий:</label>
+                <select class="form-control" id="criteriaSelect">
+                  <option>Критерий 1</option>
+                  <option>Критерий 2</option>
+                  <option>Критерий 3</option>
+                </select>
+              </div>
+              <button type="submit" class="btn">Применить фильтр</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

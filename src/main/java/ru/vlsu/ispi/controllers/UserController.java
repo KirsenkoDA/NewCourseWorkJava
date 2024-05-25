@@ -1,5 +1,6 @@
 package ru.vlsu.ispi.controllers;
 
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -146,7 +147,8 @@ public class UserController {
     @PostMapping("/topUp")
     public String topUp(@ModelAttribute("wallet") Wallet wallet)
     {
-        walletService.topUp(wallet);
-        return "userMainPages/personalAccount.html";
+        User user = (User) userService.getCurrentUser();
+        walletService.topUp(wallet, user);
+        return "redirect:/home/personalAccount/page/1";
     }
 }

@@ -18,19 +18,35 @@
     <body>
 
         <div id = "navigation" th:insert="parts/navbar :: navigation"></div>
-
         <div class="container-fluid">
             <div class="row">
                 <!-- Sidebar -->
                 <div class="col-2 bg-dark text-white">
                     <div id = "groups" th:insert="parts/groups :: groups"></div>
                 </div>
+                <!--Сюда вставить фильтр-->
 
-                <!-- Таблица товаров -->
                 <div class="col-10 content" style="margin-top: 70px;">
                     <h2>Товары</h2>
                     <table class="table">
                         <tbody>
+                            <tr>
+                                <td>
+                                    &nbsp;&nbsp;
+                                </td>
+                                <td>
+                                    <p>
+                                        Название <a th:href="@{/home/page/{pageNo}/{filterBy}/{filterType}(pageNo=${currentPage}, filterBy='name', filterType='asc', selectByProductGroup=${selectedParam})}">&#9650;</a>
+                                        <a th:href="@{/home/page/{pageNo}/{filterBy}/{filterType}(pageNo=${currentPage}, filterBy='name', filterType='desc', selectByProductGroup=${selectedParam})}">&#9660;</a>
+                                    </p>
+                                </td>
+                                <td>
+                                    <p>
+                                        Цена <a th:href="@{/home/page/{pageNo}/{filterBy}/{filterType}(pageNo=${currentPage}, filterBy='price', filterType='asc', selectByProductGroup=${selectedParam})}">&#9650;</a>
+                                        <a th:href="@{/home/page/{pageNo}/{filterBy}/{filterType}(pageNo=${currentPage}, filterBy='price', filterType='desc', selectByProductGroup=${selectedParam})}">&#9660;</a>
+                                    </p>
+                                </td>
+                            </tr>
                             <tr name = "listProducts" th:each="Product : ${listProducts}">
                                 <td>
                                     <img th:src="${Product.getPreviewImage()}" width="100" height="100" style="margin-top: 5px; margin-bottom: 5px; margin-left: 5px">
@@ -62,21 +78,21 @@
                                 Total Rows: [[${totalItems}]]
                             </div>
                             <div class="col-sm-1">
-                                <a th:if="${currentPage > 1}" th:href="@{'/home/page/' + ${currentPage - 1} + '?selectByProductGroup=' + ${selectedParam}}"><<</a>
+                                <a th:if="${currentPage > 1}" th:href="@{'/home/page/' + ${currentPage - 1} + '/' + ${filterBy}+ '/' + ${filterType} + '?selectByProductGroup=' + ${selectedParam}}"><<</a>
                                 <span th:unless="${currentPage > 1}"><<</span>
                             </div>
                             <div class="col-sm-1">
                                             <span th:each="i: ${#numbers.sequence(1, totalPages)}">
-                                                <a th:if="${currentPage != i}" th:href="@{'/home/page/' + ${i} + '?selectByProductGroup=' + ${selectedParam}}">[[${i}]]</a>
+                                                <a th:if="${currentPage != i}" th:href="@{'/home/page/' + ${i} + '/' + ${filterBy}+ '/' + ${filterType} + '?selectByProductGroup=' + ${selectedParam}}">[[${i}]]</a>
                                                 <span th:unless="${currentPage != i}">[[${i}]]</span> &nbsp; &nbsp;
                                             </span>
                             </div>
                             <div class="col-sm-1">
-                                <a th:if="${currentPage < totalPages}" th:href="@{'/home/page/' + ${currentPage + 1} + '?selectByProductGroup=' + ${selectedParam}}">>></a>
+                                <a th:if="${currentPage < totalPages}" th:href="@{'/home/page/' + ${currentPage + 1} + '/' + ${filterBy}+ '/' + ${filterType} + '?selectByProductGroup=' + ${selectedParam}}">>></a>
                                 <span th:unless="${currentPage < totalPages}">>></span>
                             </div>
                             <div class="col-sm-1">
-                                <a th:if="${currentPage < totalPages}" th:href="@{'/home/page/' + ${totalPages} + '?selectByProductGroup=' + ${selectedParam}}">Last</a>
+                                <a th:if="${currentPage < totalPages}" th:href="@{'/home/page/' + ${totalPages} + '/' + ${filterBy}+ '/' + ${filterType} + '?selectByProductGroup=' + ${selectedParam}}">Last</a>
                                 <span th:unless="${currentPage < totalPages}">Last</span>
                             </div>
                         </div>
@@ -86,7 +102,7 @@
         </div>
 
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     </body>
 </html>

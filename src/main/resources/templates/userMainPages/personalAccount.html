@@ -40,6 +40,9 @@
   </head>
   <body>
     <div id = "navigation" th:insert="parts/navbar :: navigation"></div>
+    <br>
+    <br>
+    <br>
 
     <div class="container">
       <div class="row">
@@ -93,7 +96,7 @@
             <input th:field="*{balance}" class="form-control" type="text" name="balance" id="balance"/>
             <button class="btn btn-primary mt-3"  type="submit">Пополнить баланс</button>
           </form>
-          <button class="btn btn-primary mt-3">Пополнить баланс</button>
+          <h1 th:text="${walletBalance}"></h1>
         </div>
     <!--    Pagination-->
         <div th:if="${totalPages > 1}">

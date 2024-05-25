@@ -3,6 +3,7 @@ package ru.vlsu.ispi.services;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import ru.vlsu.ispi.models.Image;
@@ -175,6 +176,34 @@ public class ProductService {
     public Page<Product> findPaginatedByProductGroup(int pageNo, int pageSize, ProductGroup productGroup)
     {
         Pageable pageable = PageRequest.of(pageNo, pageSize);
-        return productRepository.findByProductGroup(pageable,productGroup);
+        return productRepository.findAllByProductGroup(productGroup, pageable);
     }
+    public Page<Product> findByProductGroupSorted(int pageNo, int pageSize, ProductGroup productGroup, String filterBy, String filterType)
+    {
+        Pageable pageable;
+        if(filterBy.equals("name"))
+        {
+            if(filterType.equals("asc"))
+            {
+                pageable = PageRequest.of(pageNo, pageSize, Sort.by(Sort.Direction.ASC, "name"));
+            }
+            else
+            {
+                pageable = PageRequest.of(pageNo, pageSize, Sort.by(Sort.Direction.DESC, "name"));
+            }
+        }
+        else
+        {
+            if(filterType.equals("asc"))
+            {
+                pageable = PageRequest.of(pageNo, pageSize, Sort.by(Sort.Direction.ASC, "price"));
+            }
+            else
+            {
+                pageable = PageRequest.of(pageNo, pageSize, Sort.by(Sort.Direction.DESC, "price"));
+            }
+        }
+        return productRepository.findByProductGroup(productGroup, pageable);
+    }
+
 }
