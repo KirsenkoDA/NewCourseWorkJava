@@ -52,11 +52,6 @@ public class ProductController {
         Page<Product> page = productService.findPaginated(pageNo - 1, pageSize);
         List< Product > listProducts = page.getContent();
 
-//        List<List<Image>> images = new ArrayList<>();
-//        for(Product product: listProducts)
-//        {
-//            images.add(imageService.findAllByProduct(product));
-//        }
         model.addAttribute("currentPage", pageNo);
         model.addAttribute("totalPages", page.getTotalPages());
         model.addAttribute("totalItems", page.getTotalElements());

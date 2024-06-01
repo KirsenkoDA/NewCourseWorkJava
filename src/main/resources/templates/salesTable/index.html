@@ -21,9 +21,15 @@
                 <th>Статус</th>
             </tr>
             <tr name = "salesTables" th:each="salesTable : ${salesTables}">
-                <td><a th:text="${salesTable.getId()}">salesTables</a></td>
-                <td><a th:text="${salesTable.getDateCreated()}">salesTables</a></td>
-                <td><a th:text="${salesTable.getStatus().getName()}">salesTables</a></td>
+                <td><a th:href= "@{/alterStatusShow/{id}(id=${salesTable.getId()})}" th:text="${salesTable.getId()}">salesTables</a></td>
+                <td><a th:href= "@{/alterStatusShow/{id}(id=${salesTable.getId()})}" th:text="${salesTable.getDateCreated()}">salesTables</a></td>
+                <td><a th:href= "@{/alterStatusShow/{id}(id=${salesTable.getId()})}" th:text="${salesTable.getStatus().getName()}">salesTables</a></td>
+                <td th:if="${salesTable.getStatus().getName() == 'registered'}">
+                    <button class="btn btn-primary" th:href="@{/salesTables/alterStatus/collect?salesTableId={id}(id=${salesTable.getId()})}">Collect</button>
+                </td>
+                <td th:if="${salesTable.getStatus().getName() == 'collected'}">
+                    <button class="btn btn-success" th:href="@{/salesTables/alterStatus/send?salesTableId={id}(id=${salesTable.getId()})}">Send</button>
+                </td>
             </tr>
         </table>
         <div th:if="${totalPages > 1}">

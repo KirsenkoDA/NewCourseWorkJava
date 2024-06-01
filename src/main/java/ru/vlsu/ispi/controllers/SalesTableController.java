@@ -31,14 +31,15 @@ public class SalesTableController {
     public String findPaginated(@PathVariable(value = "pageNo") int pageNo, Model model, @AuthenticationPrincipal User user) {
         int pageSize = 3;
         Page<SalesTable> page;
-        if (user.getRoles().contains("ROLE_ADMIN"))
-        {
-            page = salesTableService.findPaginated(pageNo - 1, pageSize);
-        }
-        else
-        {
-            page = salesTableService.findPaginatedByUser(pageNo - 1, pageSize, user);
-        }
+        page = salesTableService.findPaginated(pageNo - 1, pageSize);
+//        if (user.getRoles().contains("ROLE_ADMIN"))
+//        {
+//            page = salesTableService.findPaginated(pageNo - 1, pageSize);
+//        }
+//        else
+//        {
+//            page = salesTableService.findPaginatedByUser(pageNo - 1, pageSize, user);
+//        }
         List<SalesTable> salesTables = page.getContent();
 
         model.addAttribute("currentPage", pageNo);
@@ -46,7 +47,6 @@ public class SalesTableController {
         model.addAttribute("totalItems", page.getTotalElements());
         model.addAttribute("salesTables", salesTables);
         return "salesTable/index";
-        // НАГЛУХО ВОЩЕЕЕ ВСТАВАЙ ДОНБАС ВСТВАЙ МОЙ КРАЙ РОДНОЙ
     }
     @GetMapping("/{id}")
     public String show(@PathVariable Long id, Model model)
@@ -65,5 +65,30 @@ public class SalesTableController {
         salesTable.setStatus(statusService.show(2));
         salesTableService.save(salesTable);
         return "redirect:/home/personalAccount/page/1";
+    }
+    @GetMapping("/alterStatus/collect")
+    public String alterStatusCollect(@RequestParam(name="salesTableId", required = false) String id)
+    {
+        SalesTable salesTable = salesTableService.show(Long.valueOf(id));
+        salesTable.setStatus(statusService.show(3));
+        salesTableService.save(salesTable);
+        return "redirect:/salesTables/page/1";
+    }
+    @GetMapping ("/alterStatus/send")
+    public String alterStatusSend(@RequestParam(name="salesTableId", required = false) String id)
+    {
+        SalesTable salesTable = salesTableService.show(Long.valueOf(id));
+        salesTable.setStatus(statusService.show(4));
+        salesTableService.save(salesTable);
+        return "redirect:/salesTables/page/1";
+    }
+    @GetMapping("/alterStatusShow/{id}")
+    public String alterStatusShow(@PathVariable Long id, Model model)
+    {
+        List<SalesLine> salesLines = salesLineService.findBySalesTableList(salesTableService.show(id));
+        SalesTable salesTable = salesTableService.show(id);
+        model.addAttribute("salesTable", salesTable);
+        model.addAttribute("salesLines", salesLines);
+        return "salesTable/alterStatus";
     }
 }

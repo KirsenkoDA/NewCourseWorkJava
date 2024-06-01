@@ -68,7 +68,7 @@ public class HomeController {
         ProductGroup productGroup = null;
 
         if(productGroupId == null) {
-            productGroupId = "1";
+            productGroupId = "100";
             productGroup = productGroupService.show(Long.parseLong(productGroupId));
             selectedParam = productGroupId;
         }

@@ -44,6 +44,8 @@ public class MySecurityAppConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 .antMatchers("/", "/users/registration", "/home/", "/images/").permitAll()
+//                .antMatchers("/salesTables/**").hasRole("CLADOVSHIK")
+                .antMatchers("/products/**", "/characteristics/**", "/productCharacteristics/**", "/productGroups/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
@@ -62,7 +64,7 @@ public class MySecurityAppConfig extends WebSecurityConfigurerAdapter {
         return new SimpleUrlAuthenticationSuccessHandler() {
             @Override
             public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-                response.sendRedirect("/home/page/1?selectByProductGroup=3"); // Перенаправляем пользователя на нужную страницу
+                response.sendRedirect("/home/page/1?selectByProductGroup=100"); // Перенаправляем пользователя на нужную страницу
             }
         };
     }

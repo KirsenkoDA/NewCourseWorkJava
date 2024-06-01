@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org" >
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Информаци о товаре</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+</head>
+<body>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js" integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa" crossorigin="anonymous"></script>
+<div th:insert="parts/navbar :: navigation"></div>
+<div id="content" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4" style="margin-top: 70px;">
+        <table class="table table-striped">
+            <tr>
+                <td>
+                    <h3>Номер заказа: </h3><br>
+                    <p th:text="${salesTable.getId()}">id</p>
+                </td>
+                <td>
+                    <h3>Имя пользователя: </h3><br>
+                    <p th:text="${salesTable.getUser().getName()}">user</p>
+                </td>
+                <td>
+                    <h3>Адрес доставки: </h3>
+                    <p th:text="${salesTable.getAddress()}">address</p>
+                </td>
+                <td>
+                    <h3>Статус: </h3>
+                    <p th:text="${salesTable.getStatus().getName()}">status</p>
+                </td>
+            </tr>
+            <tr>
+                <th>Продукт</th>
+                <th>Количество</th>
+                <th>Цена</th>
+            </tr>
+            <tr name = "carts" th:each="salesLine : ${salesLines}">
+                <td><a th:text="${salesLine.getProduct().getName()}">Name</a></td>
+                <td><a th:text="${salesLine.getQuantity()}">Quantity</a></td>
+                <td><a th:text="${salesLine.getPrice()}">Price</a></td>
+            </tr>
+        </table>
+    <div th:if="${salesTable.getStatus().getName() == 'registered'}">
+        <button class="btn btn-primary" th:href="@{/salesTables/alterStatus/collect?salesTableId={id}(id=${salesTable.getId()})}">Collect</button>
+    </div>
+    <div th:if="${salesTable.getStatus().getName() == 'collected'}">
+        <button class="btn btn-success" th:href="@{/salesTables/alterStatus/send?salesTableId={id}(id=${salesTable.getId()})}">Send</button>
+    </div>
+</div>
+</body>
+</html>

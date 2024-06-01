@@ -1,5 +1,6 @@
 package ru.vlsu.ispi.controllers;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -58,12 +59,14 @@ public class UserController {
         return "user/accessDenied.html";
     }
     @GetMapping()
+    @PreAuthorize("hasRole('ADMIN')")
     public String index(Model model)
     {
         model.addAttribute("users", userService.list());
         return "user/index.html";
     }
     @GetMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public String show(@PathVariable Long id, Model model)
     {
         User user = userService.show(id);
@@ -72,6 +75,7 @@ public class UserController {
         return "user/show.html";
     }
     @PostMapping("/delete/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public String delete(@PathVariable Long id)
     {
         userService.deleteById(id);
