@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.vlsu.ispi.dto.UserUpdateDTO;
+import ru.vlsu.ispi.dto.UserUpdatePADTO;
 import ru.vlsu.ispi.models.*;
 import ru.vlsu.ispi.services.ProductGroupService;
 import ru.vlsu.ispi.services.ProductService;
@@ -38,18 +39,15 @@ public class HomeController {
         Page<SalesTable> page = salesTableService.findByUser(pageNo - 1, pageSize, user);
         List<SalesTable> salesTables = page.getContent();
 
-        UserUpdateDTO userUpdateDTO = new UserUpdateDTO();
-        userUpdateDTO.setId(user.getId());
-        userUpdateDTO.setName(user.getName());
-        userUpdateDTO.setEmail(user.getEmail());
-        userUpdateDTO.setPhoneNumber(userUpdateDTO.getPhoneNumber());
-        userUpdateDTO.setActive(userUpdateDTO.isActive());
-        userUpdateDTO.setRoles(user.getRoles());
-        int balance = user.getWallet().getBalance();
+        UserUpdatePADTO userUpdatePADTO = new UserUpdatePADTO();
+        userUpdatePADTO.setId(user.getId());
+        userUpdatePADTO.setName(user.getName());
+        userUpdatePADTO.setEmail(user.getEmail());
+        userUpdatePADTO.setPhoneNumber(user.getPhoneNumber());
 
-        model.addAttribute("walletBalance", balance);
+//        model.addAttribute("walletBalance", user.getWallet().getBalance());
         model.addAttribute("wallet", user.getWallet());
-        model.addAttribute("userUpdateDTO", userUpdateDTO);
+        model.addAttribute("userUpdatePADTO", userUpdatePADTO);
         model.addAttribute("currentPage", pageNo);
         model.addAttribute("totalPages", page.getTotalPages());
         model.addAttribute("totalItems", page.getTotalElements());

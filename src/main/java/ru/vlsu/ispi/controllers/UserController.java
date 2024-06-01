@@ -103,7 +103,8 @@ public class UserController {
     @PostMapping("/update")
     public String update(Model model, @Valid @ModelAttribute("userUpdateDTO") UserUpdateDTO userUpdateDTO, @Valid @ModelAttribute("UserUpdatePADTO") UserUpdatePADTO userUpdatePADTO, BindingResult bindingResult) throws IOException
     {
-        if(userUpdatePADTO == null)
+        //Если данные обновляет админ
+        if(userUpdatePADTO.getId() == null)
         {
             if(bindingResult.hasErrors())
             {
@@ -124,7 +125,7 @@ public class UserController {
             user.setPassword(userService.show(user.getId()).getPassword());
             userService.save(user);
         }
-        else
+        else //Если данные обновляет пользователь
         {
             if(bindingResult.hasErrors())
             {

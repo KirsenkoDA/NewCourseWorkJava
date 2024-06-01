@@ -51,7 +51,7 @@ public class ProductController {
 
         Page<Product> page = productService.findPaginated(pageNo - 1, pageSize);
         List< Product > listProducts = page.getContent();
-
+        Product pr = new Product();
         model.addAttribute("currentPage", pageNo);
         model.addAttribute("totalPages", page.getTotalPages());
         model.addAttribute("totalItems", page.getTotalElements());
@@ -114,7 +114,7 @@ public class ProductController {
     }
 
 
-    @DeleteMapping ("/{id}")
+    @GetMapping ("/delete/{id}")
     public String delete(@PathVariable Long id)
     {
         productService.delete(id);

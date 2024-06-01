@@ -16,5 +16,5 @@ public class Wallet {
     @OneToOne(mappedBy = "wallet")
     private User user;
 
-    private int balance;
+    private String balance;
 }
