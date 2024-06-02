@@ -127,15 +127,15 @@ public class ProductController {
     @PostMapping("/update")
     public String update(@ModelAttribute("editProductDTO") EditProductDTO editProductDTO) throws IOException
     {
-        Product product = new Product();
-        product.setId(editProductDTO.getId());
-        product.setName(editProductDTO.getName());
-        product.setDiscription(editProductDTO.getDiscription());
-        product.setQuantity(editProductDTO.getQuantity());
-        product.setPrice(editProductDTO.getPrice());
-        product.setPreviewImage(editProductDTO.getPreviewImageUrl());
-        product.setProductGroup(productGroupService.show(editProductDTO.getProductGroupId()));
-        productService.save(product);
+        Product updatedProduct = new Product();
+        updatedProduct.setId(editProductDTO.getId());
+        updatedProduct.setName(editProductDTO.getName());
+        updatedProduct.setDiscription(editProductDTO.getDiscription());
+        updatedProduct.setQuantity(editProductDTO.getQuantity());
+        updatedProduct.setPrice(editProductDTO.getPrice());
+        updatedProduct.setPreviewImage(editProductDTO.getPreviewImageUrl());
+        updatedProduct.setProductGroup(productGroupService.show(editProductDTO.getProductGroupId()));
+        productService.save(updatedProduct);
         return "redirect:/products/page/1";
     }
 //    @GetMapping("/{id}/editCharacteristics")

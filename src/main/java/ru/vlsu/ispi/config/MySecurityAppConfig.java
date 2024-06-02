@@ -43,9 +43,10 @@ public class MySecurityAppConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/", "/users/registration", "/home/", "/images/").permitAll()
-//                .antMatchers("/salesTables/**").hasRole("CLADOVSHIK")
-                .antMatchers("/products/**", "/characteristics/**", "/productCharacteristics/**", "/productGroups/**").hasRole("ADMIN")
+                .antMatchers("/", "/users/registration", "/home/").permitAll()
+                .antMatchers("/salesTables/**").hasRole("CLADOVSHIK")
+                .antMatchers("/users/**").hasRole("ADMIN")
+                .antMatchers("/products/new","/products/page/**","/products/delete/**","/products/{id}/edit","/productGroups/**").hasRole("MODERATOR")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()

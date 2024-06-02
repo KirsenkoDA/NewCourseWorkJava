@@ -1,11 +1,33 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
-  <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-  </head>
-  <body>
-    Acces Denued
-    <a th:href = "@{/home/page/1}">Home</a>
-  </body>
+<html lang="en" xmlns:th="https://www.thymeleaf.org" >
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Access Denied</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    body {
+      background-color: white;
+      text-align: center;
+      margin-top: 20%;
+    }
+
+    .forbidden-text {
+      color: black;
+      font-size: 50px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <h1 class="forbidden-text">403</h1>
+      <p class="forbidden-text">You Shall Not Pass!</p>
+      <a th:href = "@{/home/page/1}">Go back to Shire</a>
+    </div>
+  </div>
+</div>
+</body>
 </html>

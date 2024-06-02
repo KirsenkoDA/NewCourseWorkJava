@@ -33,11 +33,11 @@
                 <td><a th:href="@{/products/{id}(id=${Product.getId()})}" th:text="${Product.getPrice()}">products</a></td>
                 <td><a th:href="@{/products/{id}(id=${Product.getId()})}" th:text="${Product.getQuantity()}">products</a></td>
                 <td><img th:src="${Product.getPreviewImage()}" width="70" height="70"></td>
-<!--                <td>-->
-<!--                    <form th:method="POST" th:action="@{/products/delete/{id}(id=${Product.getId()})}">-->
-<!--                        <input class="btn btn-success" type="submit" value="Delete">-->
-<!--                    </form>-->
-<!--                </td>-->
+                <td>
+                    <form th:method="POST" th:action="@{/products/delete/{id}(id=${Product.getId()})}">
+                        <input class="btn btn-success" type="submit" value="Delete">
+                    </form>
+                </td>
                 <td>
                     <form th:method="GET" th:action="@{/products/{id}/edit(id=${Product.getId()})}">
                         <input class="btn btn-success" type="submit" value="Edit">
