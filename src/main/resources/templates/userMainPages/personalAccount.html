@@ -72,7 +72,7 @@
         </div>
         <div class="col-md-6">
           <h3>Редактирование данных пользователя</h3>
-          <form th:action="@{/users/update}" th:method="POST" class="form-group" th:object="${userUpdatePADTO}" >
+          <form th:action="@{/users/updatePA}" th:method="POST" class="form-group" th:object="${userUpdatePADTO}" >
 
             <label class="form-label" for="id">Id: </label>
             <input th:field="*{id}" class="form-control" type="hidden" name="id" id="id" readonly/>

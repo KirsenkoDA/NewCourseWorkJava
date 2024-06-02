@@ -12,6 +12,17 @@
         width: 100%;
         z-index: 1000;
       }
+      .button5 {
+        background-color: white;
+        color: black;
+        border: 2px solid #555555;
+      }
+
+      .button5:hover {
+        background-color: #555555;
+        color: white;
+      }
+
     </style>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
   </head>
@@ -26,41 +37,38 @@
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav ml-auto">
             <li class="nav-item active">
-              <a class="nav-link" href="http://localhost:8081/home/page/1?selectByProductGroup=2">Главная <span class="sr-only">(текущая)</span></a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Каталог товаров</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Контакты</a>
+              <a class="nav-link" href="http://localhost:8081/home/page/1?selectByProductGroup=100">Главная <span class="sr-only">(текущая)</span></a>
             </li>
 
-            <li class="nav-item" sec:authorize="hasRole('ROLE_ADMIN')">
-              <a class="dropdown-item" href="/products/page/1">Справочник номенклатуры</a>
+            <li class="nav-item active" sec:authorize="hasRole('ROLE_ADMIN')">
+              <a class="nav-link" href="/products/page/1">Справочник номенклатуры</a>
             </li>
-            <li class="nav-item" sec:authorize="hasRole('ROLE_ADMIN')">
-              <a class="dropdown-item" href="/productGroups">Справочник номенклатурных групп</a>
+            <li class="nav-item active" sec:authorize="hasRole('ROLE_ADMIN')">
+              <a class="nav-link" href="/productGroups">Справочник номенклатурных групп</a>
             </li>
-            <li class="nav-item" sec:authorize="hasRole('ROLE_ADMIN')">
-              <a class="dropdown-item" href="/users">Справочник пользователей</a>
+            <li class="nav-item active" sec:authorize="hasRole('ROLE_ADMIN')">
+              <a class="nav-link" href="/users">Справочник пользователей</a>
             </li>
-            <li class="nav-item">
-              <a href="/carts">
+            <li class="nav-item active" sec:authorize="hasRole('ROLE_CLADOVSHIK')">
+              <a class="nav-link" href="/salesTables/page/1">Список заказов</a>
+            </li>
+            <li class="nav-item active">
+              <a class="nav-link" href="/carts">
                 <svg viewBox="0 0 105 91.85" width="35" height="35" xmlns="http://www.w3.org/2000/svg"><g id="Layer_2" data-name="Layer 2"><g id="Layer_2-2" fill="rgb(255,255,255)" data-name="Layer 2"><path d="m97.19 78.33h-48.46a12.86 12.86 0 0 1 -12.56-9.91l-1.28-5.36a.44.44 0 0 0 0-.1l-10.56-44.19h80.67v33.73a12.45 12.45 0 0 1 -12.43 12.43h-52.09l.52 2.33a7.87 7.87 0 0 0 7.69 6.07h48.5a2.5 2.5 0 0 1 0 5zm-57.9-18.4h53.28a7.43 7.43 0 0 0 7.43-7.43v-28.73h-69.33z"/><path d="m27.5 23.77a2.5 2.5 0 0 1 -2.39-1.77l-3.53-11.57a7.61 7.61 0 0 0 -7.33-5.43h-11.75a2.5 2.5 0 0 1 0-5h11.75a12.61 12.61 0 0 1 12.12 9l3.52 11.57a2.5 2.5 0 0 1 -1.66 3.12 2.31 2.31 0 0 1 -.73.08z"/><path d="m52.5 91.85a6.44 6.44 0 1 1 6.44-6.44 6.45 6.45 0 0 1 -6.44 6.44zm0-7.88a1.44 1.44 0 1 0 1.44 1.44 1.44 1.44 0 0 0 -1.44-1.41z"/><path d="m87.93 91.85a6.44 6.44 0 1 1 6.44-6.44 6.45 6.45 0 0 1 -6.44 6.44zm0-7.88a1.44 1.44 0 1 0 1.44 1.44 1.44 1.44 0 0 0 -1.44-1.41z"/></g></g></svg>
               </a>
               &nbsp;&nbsp;&nbsp;
             </li>
-            <li class="nav-item">
-              <a href="/home/personalAccount/1">
-                <svg viewBox="0 0 480 480" xmlns="http://www.w3.org/2000/svg"><path d="m240 0c-132.546875 0-240 107.453125-240 240s107.453125 240 240 240c7.230469 0 14.433594-.324219 21.601562-.96875 6.664063-.597656 13.269532-1.511719 19.824219-2.65625l2.519531-.445312c121.863282-22.742188 206.359376-134.550782 194.960938-257.996094-11.398438-123.445313-114.9375-217.8945315-238.90625-217.933594zm-19.28125 463.152344h-.566406c-6.222656-.550782-12.398438-1.382813-18.519532-2.449219-.351562-.0625-.703124-.101563-1.046874-.167969-5.984376-1.070312-11.90625-2.398437-17.769532-3.949218l-1.417968-.363282c-5.71875-1.550781-11.375-3.351562-16.949219-5.351562-.578125-.207032-1.160157-.390625-1.738281-.605469-5.464844-2.007813-10.832032-4.257813-16.117188-6.691406-.65625-.292969-1.3125-.574219-1.96875-.886719-5.183594-2.398438-10.265625-5.101562-15.25-7.945312-.703125-.398438-1.414062-.796876-2.117188-1.191407-4.90625-2.863281-9.699218-5.933593-14.402343-9.175781-.710938-.496094-1.429688-.976562-2.136719-1.472656-4.621094-3.277344-9.125-6.757813-13.511719-10.398438l-1.207031-1.054687v-67.449219c.058594-48.578125 39.421875-87.941406 88-88h112c48.578125.058594 87.941406 39.421875 88 88v67.457031l-1.0625.886719c-4.472656 3.734375-9.0625 7.265625-13.777344 10.601562-.625.4375-1.257812.855469-1.878906 1.285157-4.757812 3.304687-9.632812 6.414062-14.625 9.335937-.625.363282-1.265625.707032-1.886719 1.066406-5.058593 2.878907-10.203125 5.597657-15.449219 8.046876-.601562.28125-1.207031.542968-1.816406.800781-5.328125 2.457031-10.742187 4.71875-16.246094 6.742187-.546874.203125-1.097656.378906-1.601562.570313-5.601562 2.007812-11.28125 3.824219-17.03125 5.382812l-1.378906.34375c-5.871094 1.550781-11.796875 2.886719-17.789063 3.960938-.34375.0625-.6875.105469-1.03125.160156-6.128906 1.070313-12.3125 1.902344-18.539062 2.457031h-.566407c-6.398437.550782-12.800781.847656-19.28125.847656-6.480468 0-12.933593-.242187-19.320312-.792968zm179.28125-66.527344v-52.625c-.066406-57.410156-46.589844-103.933594-104-104h-112c-57.410156.066406-103.933594 46.589844-104 104v52.617188c-86.164062-87.941407-85.203125-228.9375 2.148438-315.699219 87.351562-86.757813 228.351562-86.757813 315.703124 0 87.351563 86.761719 88.3125 227.757812 2.148438 315.699219zm0 0"/><path d="m240 64c-44.183594 0-80 35.816406-80 80s35.816406 80 80 80 80-35.816406 80-80c-.046875-44.164062-35.835938-79.953125-80-80zm0 144c-35.347656 0-64-28.652344-64-64s28.652344-64 64-64 64 28.652344 64 64c-.039062 35.328125-28.671875 63.960938-64 64zm0 0"/></svg>
+            <li class="nav-item active">
+              <a class="nav-link" href="/home/personalAccount/page/1">
+                <svg id="Layer_2" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" data-name="Layer 2" width="35" height="35"><g fill="rgb(255,255,255)"><path d="m16 14a6.5 6.5 0 1 0 -6.5-6.5 6.508 6.508 0 0 0 6.5 6.5zm0-11a4.5 4.5 0 1 1 -4.5 4.5 4.505 4.505 0 0 1 4.5-4.5z"/><path d="m15.991 15a13.005 13.005 0 0 0 -12.991 12.99v2.01a1 1 0 0 0 2 0v-2.01a10.991 10.991 0 0 1 21.981 0v1.01h-18.981a1 1 0 0 0 0 2h19.981a1 1 0 0 0 1-1v-2.01a13 13 0 0 0 -12.99-12.99z"/></g></svg>
               </a>
             </li>
             <li class="nav-item">
               <form th:action="@{/logout}" method="post" sec:authorize="isAuthenticated()">
-                <input type="submit" value="Выйти"/>
+                <input class="button button5" type="submit" value="Выйти"/>
               </form>
               <form th:action="@{/login}" method="get" sec:authorize="isAnonymous()">
-                <input type="submit" value="Войти"/>
+                <input class="button button5" type="submit" value="Войти"/>
               </form>
             </li>
           </ul>

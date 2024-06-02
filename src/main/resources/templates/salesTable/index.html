@@ -10,6 +10,9 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js" integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa" crossorigin="anonymous"></script>
 <div id="container">
     <div id = "navigation" th:insert="parts/navbar :: navigation"></div>
+    <br>
+    <br>
+    <br>
     <div id = "header">
         <H1>Заказы</H1>
     </div>
@@ -21,14 +24,14 @@
                 <th>Статус</th>
             </tr>
             <tr name = "salesTables" th:each="salesTable : ${salesTables}">
-                <td><a th:href= "@{/alterStatusShow/{id}(id=${salesTable.getId()})}" th:text="${salesTable.getId()}">salesTables</a></td>
-                <td><a th:href= "@{/alterStatusShow/{id}(id=${salesTable.getId()})}" th:text="${salesTable.getDateCreated()}">salesTables</a></td>
-                <td><a th:href= "@{/alterStatusShow/{id}(id=${salesTable.getId()})}" th:text="${salesTable.getStatus().getName()}">salesTables</a></td>
+                <td><a th:href= "@{/salesTables/alterStatusShow/{id}(id=${salesTable.getId()})}" th:text="${salesTable.getId()}">salesTables</a></td>
+                <td><a th:href= "@{/salesTables/alterStatusShow/{id}(id=${salesTable.getId()})}" th:text="${salesTable.getDateCreated()}">salesTables</a></td>
+                <td><a th:href= "@{/salesTables/alterStatusShow/{id}(id=${salesTable.getId()})}" th:text="${salesTable.getStatus().getName()}">salesTables</a></td>
                 <td th:if="${salesTable.getStatus().getName() == 'registered'}">
-                    <button class="btn btn-primary" th:href="@{/salesTables/alterStatus/collect?salesTableId={id}(id=${salesTable.getId()})}">Collect</button>
+                    <a th:href="@{/salesTables/alterStatus/collect?salesTableId={id}(id=${salesTable.getId()})}"><button class="btn btn-primary">Collect</button></a>
                 </td>
                 <td th:if="${salesTable.getStatus().getName() == 'collected'}">
-                    <button class="btn btn-success" th:href="@{/salesTables/alterStatus/send?salesTableId={id}(id=${salesTable.getId()})}">Send</button>
+                    <a th:href="@{/salesTables/alterStatus/send?salesTableId={id}(id=${salesTable.getId()})}"><button class="btn btn-primary">Send</button></a>
                 </td>
             </tr>
         </table>

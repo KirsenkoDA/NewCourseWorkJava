@@ -103,9 +103,6 @@ public class UserController {
     @PostMapping("/update")
     public String update(Model model, @Valid @ModelAttribute("userUpdateDTO") UserUpdateDTO userUpdateDTO, @Valid @ModelAttribute("UserUpdatePADTO") UserUpdatePADTO userUpdatePADTO, BindingResult bindingResult) throws IOException
     {
-        //Если данные обновляет админ
-        if(userUpdatePADTO.getId() == null)
-        {
             if(bindingResult.hasErrors())
             {
                 List<Role> allRoles = new ArrayList<>();
@@ -124,30 +121,31 @@ public class UserController {
             user.setActive(userUpdateDTO.isActive());
             user.setPassword(userService.show(user.getId()).getPassword());
             userService.save(user);
-        }
-        else //Если данные обновляет пользователь
+            return "redirect:/users";
+    }
+    @PostMapping("/updatePA")
+    public String updatePA(Model model, @Valid @ModelAttribute("UserUpdatePADTO") UserUpdatePADTO userUpdatePADTO, BindingResult bindingResult) throws IOException
+    {
+        if(bindingResult.hasErrors())
         {
-            if(bindingResult.hasErrors())
-            {
-                List<Role> allRoles = new ArrayList<>();
-                allRoles.addAll(Arrays.asList(Role.values()));
+            List<Role> allRoles = new ArrayList<>();
+            allRoles.addAll(Arrays.asList(Role.values()));
 
-                model.addAttribute("userUpdatePADTO", userUpdatePADTO);
-                model.addAttribute("allRoles", allRoles);
-                return "userMainPages/personalAccount.html";
-            }
-            User user = new User();
-            User reqUser = userService.show(userUpdatePADTO.getId());
-            user.setId(userUpdatePADTO.getId());
-            user.setName(userUpdatePADTO.getName());
-            user.setEmail(userUpdatePADTO.getEmail());
-            user.setPhoneNumber(userUpdatePADTO.getPhoneNumber());
-            user.setRoles(reqUser.getRoles());
-            user.setActive(reqUser.isActive());
-            user.setPassword(reqUser.getPassword());
-            userService.save(user);
+            model.addAttribute("userUpdatePADTO", userUpdatePADTO);
+            model.addAttribute("allRoles", allRoles);
+            return "userMainPages/personalAccount.html";
         }
-        return "redirect:/users";
+        User user = new User();
+        User reqUser = userService.show(userUpdatePADTO.getId());
+        user.setId(userUpdatePADTO.getId());
+        user.setName(userUpdatePADTO.getName());
+        user.setEmail(userUpdatePADTO.getEmail());
+        user.setPhoneNumber(userUpdatePADTO.getPhoneNumber());
+        user.setRoles(reqUser.getRoles());
+        user.setActive(reqUser.isActive());
+        user.setPassword(reqUser.getPassword());
+        userService.save(user);
+        return "redirect:/home/personalAccount/page/1";
     }
     @PostMapping("/topUp")
     public String topUp(@ModelAttribute("wallet") Wallet wallet)

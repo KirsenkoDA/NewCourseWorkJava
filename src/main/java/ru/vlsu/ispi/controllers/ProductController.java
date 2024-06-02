@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 import ru.vlsu.ispi.dto.productDTO.CreateProductDTO;
+import ru.vlsu.ispi.dto.productDTO.EditProductDTO;
 import ru.vlsu.ispi.models.Image;
 import ru.vlsu.ispi.models.Product;
 import ru.vlsu.ispi.repositories.ProductRepository;
@@ -41,7 +42,7 @@ public class ProductController {
         Product product = productService.show(id);
 
         model.addAttribute("product", product);
-        model.addAttribute("images", product.getImages());
+        model.addAttribute("groups", productGroupService.groupList());
         return "product/show.html";
     }
 
@@ -114,36 +115,61 @@ public class ProductController {
     }
 
 
-    @GetMapping ("/delete/{id}")
+    @PostMapping ("/delete/{id}")
     public String delete(@PathVariable Long id)
     {
         productService.delete(id);
-        return "redirect:/products";
+        return "redirect:/products/page/1";
     }
     @GetMapping("/{id}/edit")
     public String edit(Model model, @PathVariable("id") Long id)
     {
-        model.addAttribute("product", productService.show(id));
+        Product product = productService.show(id);
+        EditProductDTO editProductDTO = new EditProductDTO();
+
+        editProductDTO.setId(product.getId());
+        editProductDTO.setName(product.getName());
+        editProductDTO.setDiscription(product.getDiscription());
+        editProductDTO.setQuantity(product.getQuantity());
+        editProductDTO.setPrice(product.getPrice());
+        editProductDTO.setUrl1(product.getImages().get(0).getUrl());
+        editProductDTO.setUrl2(product.getImages().get(1).getUrl());
+        editProductDTO.setUrl3(product.getImages().get(2).getUrl());
+        editProductDTO.setProductGroupId(product.getProductGroup().getId());
+
+        model.addAttribute("editProductDTO", editProductDTO);
         model.addAttribute("groups", productGroupService.groupList());
         return "product/edit.html";
     }
-//    @PatchMapping("/{id}")
-//    public String update(@ModelAttribute("product") @Valid Product product
-//            , BindingResult bindingResult
-//            , @PathVariable("id") Long id
-//            , @RequestParam(name="file1", required = false) MultipartFile file1
-//            , @RequestParam(name="file2", required = false) MultipartFile file2
-//            , @RequestParam(name="file3", required = false) MultipartFile file3, Model model) throws IOException
-//    {
-//        product.setImages(productService.show(id).getImages());
-//        if(bindingResult.hasErrors())
-//        {
-//            model.addAttribute("groups", productGroupService.groupList());
-//            return "product/edit.html";
-//        }
-//        productService.save(product, file1, file2, file3);
-//        return "redirect:/products";
-//    }
+    @PostMapping("/update")
+    public String update(@ModelAttribute("editProductDTO") EditProductDTO editProductDTO) throws IOException
+    {
+        Product product = new Product();
+        product.setId(editProductDTO.getId());
+        product.setName(editProductDTO.getName());
+        product.setDiscription(editProductDTO.getDiscription());
+        product.setQuantity(editProductDTO.getQuantity());
+        product.setPrice(editProductDTO.getPrice());
+
+        List<Image> images = new ArrayList<>();
+        Image image1 = new Image();
+        image1.setUrl(editProductDTO.getUrl1());
+        imageService.save(image1);
+        Image image2 = new Image();
+        image2.setUrl(editProductDTO.getUrl2());
+        imageService.save(image2);
+        Image image3 = new Image();
+        image3.setUrl(editProductDTO.getUrl3());
+        imageService.save(image3);
+        images.add(image1);
+        images.add(image2);
+        images.add(image3);
+
+        product.setImages(images);
+        product.setProductGroup(productGroupService.show(editProductDTO.getProductGroupId()));
+        productService.save(product);
+        return "redirect:/products/page/1";
+    }
 //    @GetMapping("/{id}/editCharacteristics")
 //    public String editCharacteristics(@PathVariable("id") Long id, Model model)
 //    {
