@@ -9,10 +9,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 import ru.vlsu.ispi.dto.productDTO.CreateProductDTO;
 import ru.vlsu.ispi.dto.productDTO.EditProductDTO;
-import ru.vlsu.ispi.models.Image;
+//import ru.vlsu.ispi.models.Image;
 import ru.vlsu.ispi.models.Product;
 import ru.vlsu.ispi.repositories.ProductRepository;
-import ru.vlsu.ispi.services.ImageService;
+//import ru.vlsu.ispi.services.ImageService;
 import ru.vlsu.ispi.services.ProductGroupService;
 import ru.vlsu.ispi.services.ProductService;
 
@@ -25,15 +25,20 @@ import java.util.List;
 public class ProductController {
     private final ProductService productService;//инжект бина модели
     private final ProductGroupService productGroupService;
-    private final ImageService imageService;
+//    private final ImageService imageService;
 //    private final ProductCharacteristicService productCharacteristicService;
 //    private final CharacteristicService characteristicService;
     private final ProductRepository productRepository;
 
-    public ProductController(ProductService productService, ProductGroupService productGroupService, ImageService imageService, ProductRepository productRepository) {
+//    public ProductController(ProductService productService, ProductGroupService productGroupService, ImageService imageService, ProductRepository productRepository) {
+//        this.productService = productService;
+//        this.productGroupService = productGroupService;
+//        this.imageService = imageService;
+//        this.productRepository = productRepository;
+//    }
+    public ProductController(ProductService productService, ProductGroupService productGroupService, ProductRepository productRepository) {
         this.productService = productService;
         this.productGroupService = productGroupService;
-        this.imageService = imageService;
         this.productRepository = productRepository;
     }
     @GetMapping("/{id}")
@@ -74,9 +79,7 @@ public class ProductController {
         return "product/new.html";
     }
     @PostMapping()
-    public String create(Model model, @RequestParam(name="file1", required = false) MultipartFile file1
-            , @RequestParam(name="file2", required = false) MultipartFile file2
-            , @RequestParam(name="file3", required = false) MultipartFile file3
+    public String create(Model model
             , @ModelAttribute("createProductDTO") CreateProductDTO createProductDTO
             , BindingResult bindingResult) throws IOException
     {
@@ -90,28 +93,10 @@ public class ProductController {
         product.setDiscription(createProductDTO.getDiscription());
         product.setPrice(createProductDTO.getPrice());
         product.setProductGroup(productGroupService.show(createProductDTO.getProductGroupId()));
+        product.setPreviewImage(createProductDTO.getPreviewImageUrl());
 
-//        productService.save(product, file1, file2, file3);
         productService.save(product);
-
-        Image image1 = new Image();
-        image1.setUrl(createProductDTO.getUrl1());
-        image1.setProduct(productService.show(product.getId()));
-        imageService.save(image1);
-
-        Image image2 = new Image();
-        image2.setUrl(createProductDTO.getUrl2());
-        image2.setProduct(productService.show(product.getId()));
-        imageService.save(image2);
-
-        Image image3 = new Image();
-        image3.setUrl(createProductDTO.getUrl3());
-        image3.setProduct(productService.show(product.getId()));
-        imageService.save(image3);
-
-        product.setPreviewImage(image1.getUrl());
-        productService.save(product);
-        return "redirect:/products";
+        return "redirect:/products/page/1";
     }
 
 
@@ -132,9 +117,7 @@ public class ProductController {
         editProductDTO.setDiscription(product.getDiscription());
         editProductDTO.setQuantity(product.getQuantity());
         editProductDTO.setPrice(product.getPrice());
-        editProductDTO.setUrl1(product.getImages().get(0).getUrl());
-        editProductDTO.setUrl2(product.getImages().get(1).getUrl());
-        editProductDTO.setUrl3(product.getImages().get(2).getUrl());
+        editProductDTO.setPreviewImageUrl(product.getPreviewImage());
         editProductDTO.setProductGroupId(product.getProductGroup().getId());
 
         model.addAttribute("editProductDTO", editProductDTO);
@@ -150,22 +133,7 @@ public class ProductController {
         product.setDiscription(editProductDTO.getDiscription());
         product.setQuantity(editProductDTO.getQuantity());
         product.setPrice(editProductDTO.getPrice());
-
-        List<Image> images = new ArrayList<>();
-        Image image1 = new Image();
-        image1.setUrl(editProductDTO.getUrl1());
-        imageService.save(image1);
-        Image image2 = new Image();
-        image2.setUrl(editProductDTO.getUrl2());
-        imageService.save(image2);
-        Image image3 = new Image();
-        image3.setUrl(editProductDTO.getUrl3());
-        imageService.save(image3);
-        images.add(image1);
-        images.add(image2);
-        images.add(image3);
-
-        product.setImages(images);
+        product.setPreviewImage(editProductDTO.getPreviewImageUrl());
         product.setProductGroup(productGroupService.show(editProductDTO.getProductGroupId()));
         productService.save(product);
         return "redirect:/products/page/1";

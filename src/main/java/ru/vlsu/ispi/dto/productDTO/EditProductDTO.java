@@ -19,7 +19,4 @@ public class EditProductDTO {
     private Long productGroupId;
     private int quantity;
 
-    private String url1;
-    private String url2;
-    private String url3;
-}
+    private String previewImageUrl;}

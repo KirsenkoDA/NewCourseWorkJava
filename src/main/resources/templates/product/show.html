@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="https://www.thymeleaf.org" >
+<html lang="en" xmlns:th="https://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,80 +7,45 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         body {
-            background-color: #adadad; /* более темный цвет фона */
-            color: #fff; /* цвет текста */
+            background-color: #fff;
+            color: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
         }
         .card {
-            border: none; /* убираем рамку */
+            background-color: #000;
+            color: #fff;
+            border: 1px solid #fff;
             border-radius: 10px;
-            margin: auto;
-            margin-top: 20px;
-            max-width: 50%; /* ширина карточки */
-        }
-        .card-img-top {
-            border-bottom: 1px solid #343a40;
-        }
-        .carousel-item img {
-            width: 100%;
-            height: auto;
-        }
-        .card-title {
-            color: #000000; /* цвет названия товара */
-        }
-        .card-text {
-            color: #000000; /* цвет описания товара */
-        }
-        .price {
-            color: #000000;
-            font-weight: bold;
+            width: 300px; /* измененная ширина карточки */
         }
         .btn-primary {
-            background-color: #000; /* черный цвет кнопки */
-            border-color: #000;
+            background-color: #000;
+            border: 1px solid #fff;
+            color: #fff;
+        }
+        .btn-primary:hover {
+            color: #000;
+            background-color: #fff;
         }
     </style>
 </head>
 <body>
-<div class="container">
-    <div id = "navigation" th:insert="parts/navbar :: navigation"></div>
+<div class="container d-flex justify-content-center align-items-center" style="height: 100vh;">
     <div class="card">
-        <img th:src="${product.getPreviewImage()}" class="card-img-top" alt="Main Product Image" width="70" height="70">
-<!--        <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">-->
-<!--            <div class="carousel-inner">-->
-<!--                <div class="carousel-item active">-->
-<!--                    <img th:src="${images.get(0)}" class="d-block w-100" alt="Product Image 1" width="70" height="70">-->
-<!--                </div>-->
-<!--            </div>-->
-<!--            <div class="carousel-inner">-->
-<!--                <div class="carousel-item active">-->
-<!--                    <img th:src="${images.get(1)}" class="d-block w-100" alt="Product Image 2" width="70" height="70">-->
-<!--                </div>-->
-<!--            </div>-->
-<!--            <div class="carousel-inner">-->
-<!--                <div class="carousel-item active">-->
-<!--                    <img th:src="${images.get(2)}" class="d-block w-100" alt="Product Image 3" width="70" height="70">-->
-<!--                </div>-->
-<!--            </div>-->
-<!--            <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">-->
-<!--                <span class="carousel-control-prev-icon" aria-hidden="true"></span>-->
-<!--                <span class="sr-only">Previous</span>-->
-<!--            </a>-->
-<!--            <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">-->
-<!--                <span class="carousel-control-next-icon" aria-hidden="true"></span>-->
-<!--                <span class="sr-only">Next</span>-->
-<!--            </a>-->
-<!--        </div>-->
+        <img th:src="${product.getPreviewImage()}" class="card-img-top" alt="Товар">
         <div class="card-body">
-            <h5 class="card-title" th:text="${product.getName()}">Название товара</h5>
-            <p class="card-text" th:text="${product.getDiscription()}">Описание товара здесь...</p>
-            <p class="price" th:text="${product.getPrice()}">Цена: $100</p>
-            <a class="btn btn-primary" th:href="@{/carts/addToCart/{id}(id=${product.getId()})}">Add to cart</a>
+            <h5 th:text="${product.getName()}" class="card-title">Название товара</h5>
+            <p th:text="${product.getDiscription()}" class="card-text">Описание товара здесь...</p>
+            <p class="card-text"><span th:text="${product.getPrice()}"></span>₽</p>
+            <a th:href="@{/carts/addToCart/{id}(id=${product.getId()})}" class="btn btn-primary">Купить</a>
         </div>
     </div>
 </div>
-
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
