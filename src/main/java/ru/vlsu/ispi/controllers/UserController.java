@@ -8,6 +8,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.vlsu.ispi.dto.UserUpdateDTO;
 import ru.vlsu.ispi.dto.UserUpdatePADTO;
+import ru.vlsu.ispi.dto.walletDTO.TopUpWalletDTO;
 import ru.vlsu.ispi.models.Role;
 import ru.vlsu.ispi.models.User;
 import ru.vlsu.ispi.models.Wallet;
@@ -147,10 +148,12 @@ public class UserController {
         userService.save(user);
         return "redirect:/home/personalAccount/page/1";
     }
-    @PostMapping("/topUp")
-    public String topUp(@ModelAttribute("wallet") Wallet wallet)
+    @GetMapping("/topUp")
+    public String topUp(@ModelAttribute("topUpWalletDTO") TopUpWalletDTO topUpWalletDTO)
     {
         User user = (User) userService.getCurrentUser();
+        Wallet wallet = new Wallet();
+        wallet.setBalance(Integer.parseInt(topUpWalletDTO.getBalance()));
         walletService.topUp(wallet, user);
         return "redirect:/home/personalAccount/page/1";
     }

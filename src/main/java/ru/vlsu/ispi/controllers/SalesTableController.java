@@ -3,14 +3,13 @@ package ru.vlsu.ispi.controllers;
 import org.springframework.data.domain.Page;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.vlsu.ispi.models.SalesLine;
 import ru.vlsu.ispi.models.SalesTable;
 import ru.vlsu.ispi.models.User;
-import ru.vlsu.ispi.services.SalesLineService;
-import ru.vlsu.ispi.services.SalesTableService;
-import ru.vlsu.ispi.services.StatusService;
+import ru.vlsu.ispi.services.*;
 
 import java.util.List;
 
@@ -20,11 +19,21 @@ public class SalesTableController {
     private final SalesTableService salesTableService;
     private final SalesLineService salesLineService;
     private final StatusService statusService;
+    private final UserService userService;
+    private final WalletService walletService;
+    private final ProductService productService;
+    private final CartService cartService;
+    private final PayService payService;
 
-    public SalesTableController(SalesTableService salesTableService, SalesLineService salesLineService, StatusService statusService) {
+    public SalesTableController(SalesTableService salesTableService, SalesLineService salesLineService, StatusService statusService, UserService userService, WalletService walletService, ProductService productService, CartService cartService, PayService payService) {
         this.salesTableService = salesTableService;
         this.salesLineService = salesLineService;
         this.statusService = statusService;
+        this.userService = userService;
+        this.walletService = walletService;
+        this.productService = productService;
+        this.cartService = cartService;
+        this.payService = payService;
     }
 
     @GetMapping("/page/{pageNo}")
@@ -57,13 +66,15 @@ public class SalesTableController {
         model.addAttribute("salesLines", salesLines);
         return "salesTable/show";
     }
+    @Transactional
     @PostMapping("/accept/{id}")
     public String accept(@PathVariable Long id, @RequestParam(name="address", required = false) String address)
     {
+        User user = (User) userService.getCurrentUser();
         SalesTable salesTable = salesTableService.show(id);
         salesTable.setAddress(address);
         salesTable.setStatus(statusService.show(2));
-        salesTableService.save(salesTable);
+        payService.pay(salesTable, user);
         return "redirect:/home/personalAccount/page/1";
     }
     @GetMapping("/alterStatus/collect")

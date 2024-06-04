@@ -5,21 +5,18 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 //import ru.vlsu.ispi.models.Image;
 //import ru.vlsu.ispi.models.ImageLob;
-import ru.vlsu.ispi.models.Product;
-import ru.vlsu.ispi.models.ProductGroup;
+import ru.vlsu.ispi.models.*;
 //import ru.vlsu.ispi.repositories.ImageLobRepository;
 //import ru.vlsu.ispi.repositories.ImageRepository;
 import ru.vlsu.ispi.repositories.ProductRepository;
 
-import java.io.IOException;
-import java.util.List;
-
 @Service
 public class ProductService {
     private final ProductRepository productRepository;
+
+    private final CartService cartService;
 //    private final ImageRepository imageRepository;
 //    private final ImageLobRepository imageLobRepository;
 //    private final ImageLobService imageLobService;
@@ -30,8 +27,9 @@ public class ProductService {
 //        this.imageLobRepository = imageLobRepository;
 //        this.imageLobService = imageLobService;
 //    }
-    public ProductService(ProductRepository productRepository) {
+    public ProductService(ProductRepository productRepository, CartService cartService) {
         this.productRepository = productRepository;
+        this.cartService = cartService;
     }
 
     public Product show(long id)

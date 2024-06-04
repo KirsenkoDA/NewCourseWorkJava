@@ -91,12 +91,12 @@
 
             <input class="btn btn-primary" type="submit" value="Enter updates"/>
           </form>
-<!--          <form th:action="@{/users/topUp}" th:method="POST" class="form-group" th:object="${wallet}">-->
-<!--            <label class="form-label" for="balance">Balance: </label>-->
-<!--            <input th:field="*{balance}" class="form-control" type="text" name="balance" id="balance"/>-->
-<!--            <button class="btn btn-primary mt-3"  type="submit">Пополнить баланс</button>-->
-<!--          </form>-->
-<!--          <h1 th:text="${walletBalance}"></h1>-->
+          <form th:action="@{/users/topUp}" th:method="GET" class="form-group" th:object="${topUpWalletDTO}">
+            <label class="form-label" for="balance">Balance: </label>
+            <input th:field="*{balance}" class="form-control" type="text" name="balance" id="balance"/>
+            <button class="btn btn-primary mt-3"  type="submit">Пополнить баланс</button>
+          </form>
+          <h1 th:text="${walletBalance}"></h1>
         </div>
     <!--    Pagination-->
         <div th:if="${totalPages > 1}">

@@ -7,16 +7,20 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.vlsu.ispi.models.Role;
 import ru.vlsu.ispi.models.User;
+import ru.vlsu.ispi.models.Wallet;
 import ru.vlsu.ispi.repositories.UserRepository;
+import ru.vlsu.ispi.repositories.WalletRepository;
 
 import java.util.List;
 
 @Service
 public class UserService {
+    private final WalletRepository walletRepository;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserService(WalletRepository walletRepository, UserRepository userRepository, PasswordEncoder passwordEncoder) {
+        this.walletRepository = walletRepository;
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }
@@ -24,12 +28,25 @@ public class UserService {
     public boolean createUser (User user)
     {
         String email = user.getEmail();
-        if(userRepository.findByEmail(email) != null) return false;
+        if (userRepository.findByEmail(email) != null) {
+            return false; // Пользователь с таким email уже существует
+        }
+
         user.setActive(true);
         user.getRoles().add(Role.ROLE_USER);
+
+        Wallet wallet = new Wallet();
+        wallet.setBalance(0);
+
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userRepository.save(user);
-        return true;
+
+        wallet.setUser(user); // Устанавливаем связь между пользователем и кошельком
+
+        userRepository.save(user); // Сначала сохраняем пользователя
+        user.setWallet(wallet);
+        walletRepository.save(wallet); // Затем сохраняем кошелек
+
+        return true; // Пользователь успешно создан
     }
     public UserDetails getCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

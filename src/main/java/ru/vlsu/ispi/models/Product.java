@@ -29,6 +29,9 @@ public class Product {
     @Size(min = 2, max = 1000, message = "Имя должно содержать от 2 до 30 символов")
     private String discription;
 
+    @OneToMany(mappedBy = "product")
+    private List<Cart> carts;
+
     @Column(name = "product_price")
     @Min(value=0, message = "Значение цены может быть только положительным")
     private float price;
@@ -36,14 +39,8 @@ public class Product {
     @ManyToOne(fetch = FetchType.EAGER)
     private ProductGroup productGroup;
 
-//    @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "product", fetch = FetchType.EAGER)//(mappedBy)Товар связанный с фотографией будет записан в foreign key  в таблице images
-//    private List<Image> images;
-
     @Column(name = "preview_image_id")
     private String previewImage;
-
-    @OneToMany(mappedBy = "product")
-    private List<Cart> carts;
 
     @Column(name = "quantity")
     private int quantity;

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.vlsu.ispi.dto.UserUpdateDTO;
 import ru.vlsu.ispi.dto.UserUpdatePADTO;
+import ru.vlsu.ispi.dto.walletDTO.TopUpWalletDTO;
 import ru.vlsu.ispi.models.*;
 import ru.vlsu.ispi.services.ProductGroupService;
 import ru.vlsu.ispi.services.ProductService;
@@ -40,13 +41,14 @@ public class HomeController {
         List<SalesTable> salesTables = page.getContent();
 
         UserUpdatePADTO userUpdatePADTO = new UserUpdatePADTO();
+        TopUpWalletDTO topUpWalletDTO = new TopUpWalletDTO();
         userUpdatePADTO.setId(user.getId());
         userUpdatePADTO.setName(user.getName());
         userUpdatePADTO.setEmail(user.getEmail());
         userUpdatePADTO.setPhoneNumber(user.getPhoneNumber());
 
-//        model.addAttribute("walletBalance", user.getWallet().getBalance());
-        model.addAttribute("wallet", user.getWallet());
+        model.addAttribute("walletBalance", user.getWallet().getBalance());
+        model.addAttribute("topUpWalletDTO", topUpWalletDTO);
         model.addAttribute("userUpdatePADTO", userUpdatePADTO);
         model.addAttribute("currentPage", pageNo);
         model.addAttribute("totalPages", page.getTotalPages());
